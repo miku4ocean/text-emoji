@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Text Emoji & Symbol Tool",
+    "version": "1.0",
+    "description": "Premium emoji, symbol, and kaomoji picker for your workflow.",
+    "side_panel": {
+        "default_path": "sidepanel.html"
+    },
+    "permissions": [
+        "sidePanel"
+    ],
+    "icons": {
+        "128": "icon.png"
+    }
+}
