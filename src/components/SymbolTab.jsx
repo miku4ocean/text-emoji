@@ -7,10 +7,17 @@ const SymbolTab = ({ recent, onSelect, filter }) => {
         // Filter by checking if items include the filter text (useful if user pastes a symbol to find category?)
         // or filtering by category name
         const lowerFilter = filter.toLowerCase();
-        return symbols.map(cat => ({
-            ...cat,
-            items: cat.items.filter(item => item.includes(filter)) // very basic
-        })).filter(cat => cat.items.length > 0 || cat.category.toLowerCase().includes(lowerFilter));
+        return symbols.map(cat => {
+            // If category name matches, show all items in that category
+            if (cat.category.toLowerCase().includes(lowerFilter)) {
+                return cat;
+            }
+            // Otherwise, filter items that include the filter text
+            return {
+                ...cat,
+                items: cat.items.filter(item => item.includes(filter))
+            };
+        }).filter(cat => cat.items.length > 0);
     }, [filter]);
 
     return (

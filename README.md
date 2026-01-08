@@ -1,16 +1,365 @@
-# React + Vite
+# ✨ Emoji 工具箱 (Emoji Toolbox)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一款精美的表情符號與文字處理工具，同時提供 **Chrome 擴充功能** 和 **網頁版** 兩種使用方式。
 
-Currently, two official plugins are available:
+![App Preview](public/icon.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🌟 功能特色
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📱 五大功能分頁
 
-## Expanding the ESLint configuration
+| 分頁 | 圖示 | 功能說明 |
+|------|------|----------|
+| **表情符號** | 😊 | 數百種 Emoji，包含笑臉、動物、食物等多個分類 |
+| **文字符號** | T | 上千種特殊符號，包含音符、天氣、數學、箭頭等 |
+| **顏文字** | 🐱 | 400+ 精選日式顏文字，16 種分類 |
+| **空白工具** | ≡ | 注入零寬度空格，繞過文字過濾器 |
+| **斷行工具** | ↩ | 處理換行格式，解決 Facebook 貼文問題 |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🎨 設計特點
+
+- 🌙 **深色主題** - 護眼設計，長時間使用不疲勞
+- 📱 **響應式設計 (RWD)** - 支援各種螢幕尺寸
+- ⚡ **一鍵複製** - 點擊即複製到剪貼簿
+- 📌 **最近使用** - 自動記錄常用符號
+- 🔍 **搜尋功能** - 快速找到想要的符號
+
+---
+
+## 📦 安裝方式
+
+### 方式一：Chrome 擴充功能（推薦）
+
+1. **下載專案**
+   ```bash
+   git clone https://github.com/miku4ocean/text-emoji.git
+   cd text-emoji
+   ```
+
+2. **安裝依賴並建置**
+   ```bash
+   npm install
+   npm run build
+   ```
+
+3. **載入到 Chrome**
+   - 開啟 Chrome 瀏覽器
+   - 在網址列輸入 `chrome://extensions/`
+   - 開啟右上角的「**開發人員模式**」
+   - 點擊「**載入未封裝項目**」
+   - 選擇專案中的 `dist` 資料夾
+
+4. **開始使用**
+   - 點擊瀏覽器工具列的擴充功能圖示
+   - 擴充功能會在側邊面板中開啟
+
+### 方式二：網頁版（GitHub Pages）
+
+直接開啟網頁版使用：[Emoji 工具箱網頁版](https://miku4ocean.github.io/text-emoji/)
+
+或本地開發測試：
+```bash
+npm run dev
+```
+然後開啟 `http://localhost:5173/`
+
+---
+
+## 📖 詳細使用手冊
+
+### 1️⃣ 表情符號分頁
+
+**功能**：瀏覽並複製各種 Emoji 表情符號
+
+**使用步驟**：
+1. 點擊第一個分頁圖示 (😊)
+2. 瀏覽各分類的表情符號
+3. 使用搜尋框快速找到需要的表情
+4. 點擊任何 Emoji 即可複製
+5. 到任何應用程式貼上使用
+
+**分類包含**：
+- 笑臉與人物
+- 動物與大自然
+- 美食與飲料
+- 活動與運動
+- 旅遊與地點
+- 物品與符號
+
+---
+
+### 2️⃣ 文字符號分頁
+
+**功能**：複製特殊符號與字元
+
+**使用步驟**：
+1. 點擊第二個分頁圖示 (T)
+2. 瀏覽各分類的特殊符號
+3. 使用搜尋框輸入關鍵字（如「箭頭」「星」「音符」）
+4. 點擊符號即可複製
+
+**符號分類範例**：
+
+| 分類 | 範例符號 |
+|------|----------|
+| 熱門符號 | ★ ☆ ♥ ♠ ✓ ✗ |
+| 箭頭符號 | ← → ↑ ↓ ⇒ ➤ |
+| 音符符號 | ♩ ♪ ♫ ♬ 🎵 🎶 |
+| 天氣符號 | ☀ ☁ ☂ ❄ ☃ |
+| 數學符號 | ± × ÷ ∞ ≤ ≥ |
+| 希臘字母 | α β γ δ ε |
+
+---
+
+### 3️⃣ 顏文字分頁
+
+**功能**：複製日式顏文字表情
+
+**使用步驟**：
+1. 點擊第三個分頁圖示 (🐱)
+2. 瀏覽 16 種分類的顏文字
+3. 點擊任意顏文字即可複製
+
+**顏文字分類**：
+
+| 分類 | 範例 |
+|------|------|
+| 😊 開心快樂 | (๑˃̵ᴗ˂̵)ﻭ ٩(◕‿◕｡)۶ |
+| ❤️ 愛心浪漫 | (♥ω♥*) (｡♥‿♥｡) |
+| 😢 傷心難過 | (╥﹏╥) (´;ω;`) |
+| 😠 生氣憤怒 | (╯°□°)╯︵ ┻━┻ |
+| 😱 驚訝震驚 | Σ(°△°|||) (⊙_⊙) |
+| 🐱 可愛動物 | (=^･ω･^=) ʕ•ᴥ•ʔ |
+| 👋 打招呼 | (｡･∀･)ﾉﾞ ヾ(＾∇＾) |
+| 😴 睡覺休息 | (´〜`)zzz _(:3 」∠ )_ |
+| 🍜 吃東西 | (๑´ڡ`๑) ლ(´ڡ`ლ) |
+| 🎵 音樂唱歌 | ♪(´ε` ) ヾ(´〇`)ﾉ♪ |
+| 💪 加油運動 | (ง •̀_•́)ง ᕙ(⇀‸↼‶)ᕗ |
+| ✨ 魔法特效 | (ﾉ◕ヮ◕)ﾉ*:・ﾟ✧ |
+| 😏 搞怪耍賴 | ( ͡° ͜ʖ ͡°) ¯\\_(ツ)_/¯ |
+| 🙏 道歉請求 | m(_ _)m ごめん |
+| 🤔 思考困惑 | (・・?) (。ヘ°) |
+| 🎮 遊戲電玩 | GG(°▽°) ヽ(´▽`)/✌ |
+
+---
+
+### 4️⃣ 空白工具分頁
+
+**功能**：在文字中注入「零寬度空格 (U+200B)」，用於繞過文字過濾器
+
+**使用情境**：
+- 🛡️ 繞過平台的關鍵字過濾
+- 📝 防止文字被自動偵測
+- 🔒 製造獨特的文字指紋
+
+**使用步驟**：
+
+1. **輸入文字**
+   - 在文字框中輸入或貼上文字
+
+2. **點擊「🪄 注入」**
+   - 系統會在每個空格和換行後加入零寬度空格
+   - 文字會自動複製到剪貼簿
+
+3. **查看統計**
+   - 可見字元：原本看得到的字元數
+   - 隱形空格：注入的零寬度空格數（綠色顯示）
+   - 總字元數：實際的字元總數
+
+4. **其他按鈕**
+   - 📋 **複製**：複製目前的文字
+   - 🗑️ **清除**：清空文字框
+   - ↩️ **還原**：移除所有零寬度空格
+
+**範例**：
+```
+原始：Hello World（11 字元）
+注入後：Hello​ World​（12 字元，含 1 個隱形空格）
+視覺上完全相同，但字元數不同！
+```
+
+---
+
+### 5️⃣ 斷行工具分頁
+
+**功能**：處理文字的換行格式
+
+**四個功能按鈕**：
+
+#### 📌 移除多餘換行
+將多個連續的空行合併為單一換行。
+
+```
+處理前：
+第一行
+
+第三行（中間有空行）
+
+處理後：
+第一行
+第三行
+```
+
+#### 📌 合併所有斷行
+移除所有換行，把文字連成一行。
+
+```
+處理前：
+第一行
+第二行
+第三行
+
+處理後：
+第一行第二行第三行
+```
+
+#### 📌 句號後加斷行
+在全形標點符號（。！？）後自動加換行。
+
+⚠️ **只處理全形標點**，不處理半形（. ! ?），避免網址被誤斷。
+
+```
+處理前：
+今天天氣很好。明天會下雨。後天放晴。
+
+處理後：
+今天天氣很好。
+明天會下雨。
+後天放晴。
+```
+
+#### 📌 雙斷行加空白
+在雙換行處加入隱形字元，解決 Facebook 貼文換行被吞掉的問題。
+
+**使用情境**：
+Facebook 和某些平台會將連續兩次 Enter 的換行壓縮成一次，導致段落間距消失。此功能會在段落間加入隱形字元，保持原本的段落間距。
+
+```
+處理前（貼到 FB 會被壓縮）：
+第一段
+
+第二段
+
+處理後（貼到 FB 保持間距）：
+第一段
+​
+第二段
+```
+
+**按鈕切換說明**：
+- 所有按鈕預設為**深色**
+- 點擊按鈕後會變成**藍色**（表示目前使用的模式）
+- 切換到其他按鈕時，舊的會恢復為深色
+
+---
+
+## ⌨️ 快捷功能
+
+### 搜尋功能
+- 表情符號和文字符號分頁支援搜尋
+- 輸入關鍵字即時過濾結果
+- 支援中文分類名稱搜尋
+
+### 最近使用
+- 每個分頁都會記錄最近使用的項目
+- 顯示在分頁最上方
+- 方便快速重複使用
+
+### 複製回饋
+- 複製成功後顯示「已複製！」提示
+- 處理完成後顯示「已處理並複製！」提示
+
+---
+
+## 🛠️ 技術資訊
+
+### 技術堆疊
+- **前端框架**：React 19
+- **建置工具**：Vite 7
+- **圖示庫**：Lucide React
+- **擴充功能**：Chrome Manifest V3
+
+### 專案結構
+```
+text-emoji/
+├── public/
+│   ├── icon.png          # 擴充功能圖示
+│   └── manifest.json     # Chrome 擴充功能配置
+├── src/
+│   ├── components/       # React 元件
+│   │   ├── EmojiTab.jsx
+│   │   ├── SymbolTab.jsx
+│   │   ├── KaomojiTab.jsx
+│   │   ├── WhitespaceTab.jsx
+│   │   └── LineBreakTab.jsx
+│   ├── data/             # 資料檔案
+│   │   ├── emojis.js
+│   │   ├── symbols.js
+│   │   └── kaomojis.js
+│   ├── utils/            # 工具函數
+│   ├── App.jsx           # 主應用程式
+│   └── main.jsx          # 進入點
+├── index.html            # 網頁版入口
+├── sidepanel.html        # Chrome 側邊面板入口
+└── package.json
+```
+
+### 開發指令
+```bash
+# 安裝依賴
+npm install
+
+# 開發模式
+npm run dev
+
+# 建置生產版本
+npm run build
+
+# 預覽生產版本
+npm run preview
+
+# 程式碼檢查
+npm run lint
+```
+
+---
+
+## 📝 更新日誌
+
+### v1.1.0 (2026-01-08)
+- 🆕 新增斷行工具分頁
+- 🆕 新增雙斷行加空白功能（解決 Facebook 問題）
+- 🎨 空白工具新增字元統計顯示
+- 🎨 斷行工具按鈕支援切換模式
+- 🐱 顏文字分頁圖示改為貓咪
+- 📱 新增 RWD 響應式設計
+- 🔧 句號後加斷行只處理全形符號
+
+### v1.0.0 (2026-01-07)
+- 🎉 首次發布
+- ✅ 表情符號分頁
+- ✅ 特殊符號分頁（含搜尋功能）
+- ✅ 顏文字分頁（400+ 顏文字）
+- ✅ 空白工具
+- ✅ 最近使用記錄
+- ✅ 深色主題介面
+
+---
+
+## 🤝 貢獻
+
+歡迎提交 Issue 或 Pull Request！
+
+---
+
+## 📄 授權
+
+MIT License
+
+---
+
+<p align="center">
+  Made with ❤️ using React + Vite
+</p>
