@@ -1,3 +1,8 @@
+/* ============================================
+   THEME VARIABLES
+   ============================================ */
+
+/* Dark Theme (Default) - 深色模式 */
 :root {
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
@@ -9,6 +14,22 @@
   --accent-glow: rgba(59, 130, 246, 0.4);
   --border: #334155;
   --success: #22c55e;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Light Theme - 北歐亮色模式 */
+:root[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --bg-tertiary: #cbd5e1;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --accent: #0ea5e9;
+  --accent-hover: #0284c7;
+  --accent-glow: rgba(14, 165, 233, 0.3);
+  --border: #cbd5e1;
+  --success: #16a34a;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -18,6 +39,7 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scrollbar */
@@ -52,6 +74,10 @@ body {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   padding: 10px 12px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
 }
 
 .app-title {
@@ -63,6 +89,30 @@ body {
   align-items: center;
   gap: 6px;
   letter-spacing: -0.01em;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
 }
 
 /* ============================================

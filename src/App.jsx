@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Smile, Type, Cat, AlignLeft, WrapText, Search } from 'lucide-react';
+import { Smile, Type, Cat, AlignLeft, WrapText, Search, Sun, Moon } from 'lucide-react';
 import EmojiTab from './components/EmojiTab';
 import SymbolTab from './components/SymbolTab';
 import KaomojiTab from './components/KaomojiTab';
@@ -17,21 +17,58 @@ const TABS = [
   { id: 'linebreak', icon: WrapText, label: '斷行工具', subtitle: '處理換行格式' },
 ];
 
+// Theme utility functions
+const getStoredTheme = () => {
+  try {
+    return localStorage.getItem('emoji-toolbox-theme') || 'dark';
+  } catch {
+    return 'dark';
+  }
+};
+
+const setStoredTheme = (theme) => {
+  try {
+    localStorage.setItem('emoji-toolbox-theme', theme);
+  } catch {
+    // localStorage not available
+  }
+};
+
 function App() {
   const [activeTab, setActiveTab] = useState('emoji');
   const [search, setSearch] = useState('');
   const [toast, setToast] = useState(null);
+  const [theme, setTheme] = useState(getStoredTheme);
 
   // Recents state
   const [recentEmojis, setRecentEmojis] = useState([]);
   const [recentSymbols, setRecentSymbols] = useState([]);
   const [recentKaomojis, setRecentKaomojis] = useState([]);
 
+  // Initialize theme on mount
+  useEffect(() => {
+    const savedTheme = getStoredTheme();
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  // Apply theme changes
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    setStoredTheme(theme);
+  }, [theme]);
+
   useEffect(() => {
     setRecentEmojis(getRecent('recent_emojis'));
     setRecentSymbols(getRecent('recent_symbols'));
     setRecentKaomojis(getRecent('recent_kaomojis'));
   }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    showToast(newTheme === 'light' ? '🌞 亮色模式' : '🌙 深色模式');
+  };
 
   const showToast = (msg) => {
     setToast(msg);
@@ -67,6 +104,13 @@ function App() {
       {/* Header */}
       <header className="app-header">
         <h1 className="app-title">✨ Emoji 工具箱</h1>
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={theme === 'dark' ? '切換亮色模式' : '切換深色模式'}
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
       </header>
 
       {/* Tabs */}
