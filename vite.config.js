@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 // Use environment variable to switch between GitHub Pages and Chrome extension builds
 // npm run build -> Chrome extension (base: './')
 // npm run build:gh -> GitHub Pages (base: '/text-emoji/')
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(() => {
   const isGitHubPages = process.env.BUILD_TARGET === 'gh-pages'
 
   return {
