@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>text-emoji · mockup 總覽</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+:root{
+  --paper:#FBFAF7; --ink:#181B20; --muted:#6B7178;
+  --line:#E7E3DA; --accent:#2E4B8F; --accent-soft:#EAEEF7;
+  --ok:#1F7A54; --err:#B03A2E; --warn:#B8860B;
+  --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,monospace;
+}
+*{box-sizing:border-box;}
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); padding:48px 24px 96px; }
+.page{ max-width:920px; margin:0 auto; }
+.wordmark{ font-family:var(--serif); font-size:2rem; margin:0; }
+.wordmark .dot{ color:var(--accent); }
+.tagline{ color:var(--muted); font-size:.95rem; margin:.35rem 0 0; }
+header.top{ display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:32px; }
+.meta{ text-align:right; font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.04em; }
+
+.badge-noback{
+  display:inline-block; font-family:var(--mono); font-size:.7rem; letter-spacing:.06em;
+  color:var(--err); border:1px solid var(--err); border-radius:999px; padding:3px 10px; margin:10px 0 0;
+}
+
+.section-title{ font-family:var(--mono); text-transform:uppercase; letter-spacing:.1em; font-size:.75rem; color:var(--muted); margin:36px 0 14px; }
+
+.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+.card{
+  display:block; text-decoration:none; color:var(--ink);
+  background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px 20px;
+  transition:border-color .15s, box-shadow .15s;
+}
+.card:hover{ border-color:var(--accent); box-shadow:0 4px 16px rgba(46,75,143,.08); }
+.card .icon{ font-size:1.4rem; }
+.card h3{ margin:8px 0 4px; font-size:1rem; }
+.card p{ margin:0; font-size:.8rem; color:var(--muted); }
+.card .file{ margin-top:10px; font-family:var(--mono); font-size:.68rem; color:var(--accent); }
+
+.status-row{ margin-top:8px; font-family:var(--mono); font-size:.68rem; color:var(--ok); }
+
+.footnote{ margin-top:40px; border:1px solid var(--line); border-radius:10px; padding:18px 22px; background:var(--paper); font-size:.85rem; }
+.footnote .section-title{ margin-top:0; }
+.footnote ul{ margin:8px 0 0; padding-left:20px; }
+.footnote li{ margin-bottom:6px; }
+
+footer.page-footer{ margin-top:48px; text-align:center; color:var(--muted); font-family:var(--mono); font-size:.7rem; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <h1 class="wordmark">text-emoji<span class="dot">.</span></h1>
+      <p class="tagline">mockup 總覽 —— 前台 5 個功能分頁線框稿</p>
+      <span class="badge-noback">✗ 本工具無後台管理介面</span>
+    </div>
+    <div class="meta">
+      mockup/index.html<br/>
+      /Users/leonalin/Code/text-emoji/mockup<br/>
+      更新：2026-07-24
+    </div>
+  </header>
+
+  <p style="font-size:.9rem; color:var(--ink); max-width:640px;">
+    text-emoji 是純前端單頁應用，只有「前台」，沒有後台。應用內以 5 個分頁（非獨立網址路由）呈現，
+    每個分頁對應 <span style="font-family:var(--mono); font-size:.82rem;">src/components/</span> 下一個實際元件。
+    以下 5 份 mockup 皆依實際讀取的元件程式碼繪製線框稿，非規劃推導。
+  </p>
+
+  <div class="section-title">前台 · 5 個功能分頁</div>
+  <div class="grid">
+    <a class="card" href="front-emoji.html">
+      <span class="icon">😊</span>
+      <h3>表情符號</h3>
+      <p>EmojiTab · 8 類・1762 個 emoji，搜尋列存在但未生效</p>
+      <div class="file">front-emoji.html</div>
+      <div class="status-row">✓ 依 EmojiTab.jsx 實際結構</div>
+    </a>
+    <a class="card" href="front-symbol.html">
+      <span class="icon">T</span>
+      <h3>文字符號</h3>
+      <p>SymbolTab · 54 類・3372 個符號，唯一真正支援搜尋過濾的分頁</p>
+      <div class="file">front-symbol.html</div>
+      <div class="status-row">✓ 依 SymbolTab.jsx 實際結構</div>
+    </a>
+    <a class="card" href="front-kaomoji.html">
+      <span class="icon">🐱</span>
+      <h3>顏文字</h3>
+      <p>KaomojiTab · 16 類・480 個顏文字，搜尋列存在但未生效</p>
+      <div class="file">front-kaomoji.html</div>
+      <div class="status-row">✓ 依 KaomojiTab.jsx 實際結構</div>
+    </a>
+    <a class="card" href="front-whitespace.html">
+      <span class="icon">≡</span>
+      <h3>空白工具</h3>
+      <p>WhitespaceTab · 注入零寬度空格（U+200B），字元統計、注入／複製／清除／還原</p>
+      <div class="file">front-whitespace.html</div>
+      <div class="status-row">✓ 依 WhitespaceTab.jsx 實際結構</div>
+    </a>
+    <a class="card" href="front-linebreak.html">
+      <span class="icon">↩</span>
+      <h3>斷行工具</h3>
+      <p>LineBreakTab · 4 種換行處理模式，含 Facebook 雙斷行修正</p>
+      <div class="file">front-linebreak.html</div>
+      <div class="status-row">✓ 依 LineBreakTab.jsx 實際結構</div>
+    </a>
+  </div>
+
+  <div class="footnote">
+    <div class="section-title">關於雙重進入點的說明</div>
+    <ul>
+      <li>本應用有兩個 HTML 進入點（<code>index.html</code> 網頁版／GitHub Pages、<code>sidepanel.html</code> Chrome 側邊面板），但兩者掛載<b>同一顆 App.jsx</b>，畫面結構完全相同，僅容器寬度不同（側邊面板較窄）——因此不另外重複繪製 mockup。</li>
+      <li>本工具沒有帳號系統、沒有後台管理頁面、沒有伺服器渲染頁面，「前台」即是全部。</li>
+      <li>每份 mockup 頁底部的「NOTES」皆標註該頁面實際讀碼確認到的行為（例如哪個搜尋列真的有作用）。</li>
+    </ul>
+  </div>
+
+  <footer class="page-footer">text-emoji · mockup/index.html · Galley 視覺語言</footer>
+</div>
+</body>
+</html>

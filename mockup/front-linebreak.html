@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>text-emoji · mockup · 斷行工具分頁</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+:root{
+  --paper:#FBFAF7; --ink:#181B20; --muted:#6B7178;
+  --line:#E7E3DA; --accent:#2E4B8F; --accent-soft:#EAEEF7;
+  --ok:#1F7A54; --err:#B03A2E; --warn:#B8860B;
+  --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,monospace;
+}
+*{box-sizing:border-box;}
+body{ margin:0; background:#EDEAE2; font-family:var(--sans); color:var(--ink); padding:32px 16px 80px; }
+.wrap{ max-width:460px; margin:0 auto; }
+.mockup-badge{ font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; color:var(--muted); text-align:center; margin-bottom:10px; }
+.mockup-badge b{ color:var(--accent); }
+.frame{ background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 8px 28px rgba(24,27,32,.08); }
+a.back{ display:inline-block; margin-bottom:14px; font-family:var(--mono); font-size:.75rem; color:var(--accent); text-decoration:none; }
+a.back:hover{ text-decoration:underline; }
+.app-header{ display:flex; justify-content:space-between; align-items:center; padding:16px 18px 12px; border-bottom:1px solid var(--line); }
+.app-title{ font-family:var(--serif); font-size:1.15rem; margin:0; }
+.theme-btn{ width:32px; height:32px; border-radius:8px; border:1px solid var(--line); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:.9rem; }
+.tabs{ display:flex; gap:6px; padding:10px 18px; border-bottom:1px solid var(--line); }
+.tab-btn{ flex:1; padding:8px 0; border-radius:8px; border:1px solid var(--line); background:#fff; text-align:center; font-size:.85rem; color:var(--muted); }
+.tab-btn.active{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600; }
+.sub-header{ padding:12px 18px 6px; }
+.sub-title{ margin:0; font-size:1rem; }
+.sub-desc{ margin:2px 0 0; font-size:.78rem; color:var(--muted); }
+.content{ padding:14px 18px 20px; }
+.section-header{ font-family:var(--mono); text-transform:uppercase; letter-spacing:.1em; font-size:.68rem; color:var(--muted); margin-bottom:10px; }
+.stat-row{ display:flex; gap:14px; font-size:.72rem; color:var(--muted); background:#fff; border:1px solid var(--line); border-radius:6px; padding:8px 12px; margin-bottom:8px; }
+.stat-row strong{ color:var(--ink); }
+.stat-row .dbl{ color:var(--ok); }
+.ws-textarea{ width:100%; height:110px; border:1px solid var(--line); border-radius:8px; background:#fff; padding:10px; font-size:.85rem; color:var(--muted); resize:none; }
+.ws-controls{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px; }
+.action-btn{ display:flex; flex-direction:column; align-items:center; gap:4px; border:1px solid var(--line); border-radius:8px; padding:10px 4px; font-size:.72rem; background:#fff; color:var(--ink); }
+.action-btn.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+.helper{ font-size:.72rem; color:var(--muted); margin-top:12px; line-height:1.7; }
+.helper b{ color:var(--ink); }
+.toast-row{ padding:0 18px 18px; }
+.toast{ display:inline-block; background:var(--ink); color:#fff; font-size:.78rem; padding:6px 14px; border-radius:999px; }
+.notes{ max-width:460px; margin:18px auto 0; font-size:.78rem; color:var(--muted); font-family:var(--mono); line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← 返回 mockup 總覽</a>
+  <div class="mockup-badge">MOCKUP · <b>front-linebreak</b> · 依 src/components/LineBreakTab.jsx 實際結構繪製</div>
+
+  <div class="frame">
+    <header class="app-header">
+      <h1 class="app-title">✨ Emoji 工具箱</h1>
+      <div class="theme-btn">☀</div>
+    </header>
+
+    <div class="tabs">
+      <div class="tab-btn">😊</div>
+      <div class="tab-btn">T</div>
+      <div class="tab-btn">🐱</div>
+      <div class="tab-btn">≡</div>
+      <div class="tab-btn active">↩</div>
+    </div>
+
+    <div class="sub-header">
+      <h2 class="sub-title">斷行工具</h2>
+      <p class="sub-desc">處理換行格式</p>
+    </div>
+
+    <div class="content">
+      <div class="section-header">斷行工具 (Line Break Tool)</div>
+
+      <div class="stat-row">
+        <span>總字元: <strong>18</strong></span>
+        <span>換行數: <strong>2</strong></span>
+        <span>雙換行: <strong class="dbl">1</strong></span>
+      </div>
+
+      <div class="ws-textarea">第一段<br/><br/>第二段（示意輸入）</div>
+
+      <div class="ws-controls">
+        <div class="action-btn primary">➖<span>移除多餘換行</span></div>
+        <div class="action-btn">🔀<span>合併所有斷行</span></div>
+        <div class="action-btn">✂️<span>句號後加斷行</span></div>
+        <div class="action-btn">␣<span>雙斷行加空白</span></div>
+      </div>
+
+      <div class="helper">
+        💡 <b>功能說明：</b><br/>
+        ・移除多餘換行：多個連續空行合併為單一換行<br/>
+        ・合併所有斷行：移除所有換行，連成一行<br/>
+        ・句號後加斷行：只處理全形。！？，不影響半形與網址<br/>
+        ・雙斷行加空白：解決 Facebook 貼文吞換行問題
+      </div>
+    </div>
+
+    <div class="toast-row">
+      <span class="toast">已處理並複製！</span>
+    </div>
+  </div>
+
+  <div class="notes">
+    ▸ 此分頁無搜尋列（App.jsx 明確排除 whitespace／linebreak）<br/>
+    ▸ 按鈕切換模式：點擊後變 primary（accent）色，代表目前套用中的模式（讀碼確認 LineBreakTab.jsx activeMode）
+  </div>
+</div>
+</body>
+</html>

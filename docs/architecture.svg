@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1680" font-family="ui-sans-serif,system-ui,'Segoe UI',Roboto,'Noto Sans TC',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2E4B8F"/>
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1000" height="1680" fill="#FBFAF7"/>
+
+  <!-- header -->
+  <text x="40" y="55" font-family="Georgia,'Iowan Old Style','Times New Roman',serif" font-size="34" fill="#181B20">text-emoji<tspan fill="#2E4B8F">.</tspan></text>
+  <text x="40" y="80" font-size="13" fill="#6B7178">表情符號／文字符號／顏文字瀏覽器 —— 純前端、無後端架構圖</text>
+  <text x="960" y="45" text-anchor="end" font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,monospace" font-size="11" fill="#6B7178">docs/architecture.svg</text>
+  <text x="960" y="60" text-anchor="end" font-family="ui-monospace,'SF Mono','Cascadia Code',Menlo,monospace" font-size="11" fill="#6B7178">更新：2026-07-24</text>
+  <line x1="40" y1="96" x2="960" y2="96" stroke="#E7E3DA" stroke-width="1"/>
+
+  <text x="40" y="120" font-family="ui-monospace,monospace" font-size="12" letter-spacing="1" fill="#6B7178">NO BACKEND · NO API · NO DATABASE · NO ACCOUNTS</text>
+
+  <!-- ===== L1 ===== -->
+  <rect x="40" y="140" width="920" height="230" rx="10" fill="#FBFAF7" stroke="#E7E3DA" stroke-width="1.5"/>
+  <text x="60" y="170" font-family="monospace" font-size="13" fill="#2E4B8F">01</text>
+  <text x="86" y="170" font-family="monospace" font-size="13" letter-spacing="1" fill="#181B20">使用者介面層 · 雙重進入點</text>
+  <text x="60" y="192" font-size="12" fill="#6B7178">index.html／sidepanel.html → main.jsx → App.jsx → 5 個分頁元件</text>
+
+  <!-- row1 chips -->
+  <g font-family="monospace" font-size="11.5">
+    <rect x="60" y="208" width="150" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="70" y="227" fill="#181B20">index.html</text>
+    <rect x="220" y="208" width="180" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="230" y="227" fill="#181B20">sidepanel.html</text>
+    <rect x="410" y="208" width="130" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="420" y="227" fill="#181B20">main.jsx</text>
+    <rect x="550" y="208" width="130" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="560" y="227" fill="#181B20">App.jsx</text>
+  </g>
+  <text x="60" y="260" font-size="11" fill="#6B7178">App.jsx 分派至 5 個分頁元件：</text>
+  <g font-family="monospace" font-size="11.5">
+    <rect x="60" y="270" width="120" height="30" rx="6" fill="#EAEEF7" stroke="#2E4B8F"/>
+    <text x="70" y="289" fill="#181B20">EmojiTab</text>
+    <rect x="195" y="270" width="125" height="30" rx="6" fill="#EAEEF7" stroke="#2E4B8F"/>
+    <text x="205" y="289" fill="#181B20">SymbolTab</text>
+    <rect x="335" y="270" width="135" height="30" rx="6" fill="#EAEEF7" stroke="#2E4B8F"/>
+    <text x="345" y="289" fill="#181B20">KaomojiTab</text>
+    <rect x="485" y="270" width="165" height="30" rx="6" fill="#EAEEF7" stroke="#2E4B8F"/>
+    <text x="495" y="289" fill="#181B20">WhitespaceTab</text>
+    <rect x="665" y="270" width="150" height="30" rx="6" fill="#EAEEF7" stroke="#2E4B8F"/>
+    <text x="675" y="289" fill="#181B20">LineBreakTab</text>
+  </g>
+  <text x="60" y="330" font-size="11" fill="#6B7178">Header：主題切換（☀/🌙）・搜尋列（除空白／斷行工具外）・Toast 複製回饋</text>
+  <text x="60" y="350" font-size="11" fill="#6B7178">雙入口皆載入相同的 App，僅容器寬度不同（sidepanel 較窄／網頁版可全寬）</text>
+
+  <line x1="500" y1="370" x2="500" y2="404" stroke="#2E4B8F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="510" y="392" font-family="monospace" font-size="11" fill="#2E4B8F">▸ 傳遞 props（recent / onSelect / filter）</text>
+
+  <!-- ===== L2 ===== -->
+  <rect x="40" y="404" width="920" height="130" rx="10" fill="#FBFAF7" stroke="#E7E3DA" stroke-width="1.5"/>
+  <text x="60" y="432" font-family="monospace" font-size="13" fill="#2E4B8F">02</text>
+  <text x="86" y="432" font-family="monospace" font-size="13" letter-spacing="1" fill="#181B20">應用狀態邏輯層</text>
+  <text x="60" y="452" font-size="12" fill="#6B7178">App.jsx 集中管理：activeTab・search・theme・toast・recentEmojis／recentSymbols／recentKaomojis</text>
+  <text x="60" y="480" font-family="monospace" font-size="11" fill="#B8860B">▸ 讀碼發現：EmojiTab／KaomojiTab 目前忽略 filter（原始碼註解：尚未實作搜尋）</text>
+  <text x="60" y="500" font-family="monospace" font-size="11" fill="#1F7A54">✓ SymbolTab 已實作依分類名／字元內容過濾</text>
+
+  <line x1="500" y1="534" x2="500" y2="564" stroke="#2E4B8F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="510" y="554" font-family="monospace" font-size="11" fill="#2E4B8F">▸ 呼叫瀏覽器原生 API</text>
+
+  <!-- ===== L3 ===== -->
+  <rect x="40" y="564" width="920" height="120" rx="10" fill="#FBFAF7" stroke="#E7E3DA" stroke-width="1.5"/>
+  <text x="60" y="592" font-family="monospace" font-size="13" fill="#2E4B8F">03</text>
+  <text x="86" y="592" font-family="monospace" font-size="13" letter-spacing="1" fill="#181B20">瀏覽器 API 層（無後端 API）</text>
+  <g font-family="monospace" font-size="11.5">
+    <rect x="60" y="606" width="280" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="70" y="625" fill="#181B20">navigator.clipboard.writeText</text>
+    <rect x="360" y="606" width="260" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="370" y="625" fill="#181B20">localStorage: emoji-toolbox-theme</text>
+    <rect x="640" y="606" width="300" height="30" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="650" y="625" fill="#181B20">localStorage: recent_*（上限24筆）</text>
+  </g>
+  <text x="60" y="660" font-size="11" fill="#6B7178">所有「動作」皆為瀏覽器原生能力，沒有伺服器往返、沒有網路請求。</text>
+
+  <line x1="500" y1="684" x2="500" y2="714" stroke="#2E4B8F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="510" y="704" font-family="monospace" font-size="11" fill="#2E4B8F">▸ 讀取靜態陣列</text>
+
+  <!-- ===== L4 ===== -->
+  <rect x="40" y="714" width="920" height="120" rx="10" fill="#FBFAF7" stroke="#E7E3DA" stroke-width="1.5"/>
+  <text x="60" y="742" font-family="monospace" font-size="13" fill="#2E4B8F">04</text>
+  <text x="86" y="742" font-family="monospace" font-size="13" letter-spacing="1" fill="#181B20">本機靜態資料層（無資料庫）</text>
+  <g font-family="monospace" font-size="11.5">
+    <rect x="60" y="756" width="250" height="34" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="70" y="774" fill="#181B20">emojis.js</text>
+    <text x="70" y="787" font-size="10" fill="#6B7178">8 類・1762 個</text>
+    <rect x="325" y="756" width="250" height="34" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="335" y="774" fill="#181B20">symbols.js</text>
+    <text x="335" y="787" font-size="10" fill="#6B7178">54 類・3372 個</text>
+    <rect x="590" y="756" width="250" height="34" rx="6" fill="#fff" stroke="#E7E3DA"/>
+    <text x="600" y="774" fill="#181B20">kaomojis.js</text>
+    <text x="600" y="787" font-size="10" fill="#6B7178">16 類・480 個</text>
+  </g>
+  <text x="60" y="815" font-size="11" fill="#6B7178">資料直接寫死於前端 bundle，隨建置封裝，無 CMS、無 API 讀取（數字依 HANDOFF.md 2026-07-21 記載）。</text>
+
+  <line x1="500" y1="834" x2="500" y2="864" stroke="#2E4B8F" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="510" y="854" font-family="monospace" font-size="11" fill="#2E4B8F">▸ 建置時封裝</text>
+
+  <!-- ===== L5 keystone ===== -->
+  <rect x="38" y="864" width="924" height="330" rx="12" fill="#EAEEF7" stroke="#2E4B8F" stroke-width="3"/>
+  <rect x="60" y="850" width="110" height="24" rx="12" fill="#2E4B8F"/>
+  <text x="115" y="867" text-anchor="middle" font-family="monospace" font-size="11" letter-spacing="1" fill="#fff">KEYSTONE</text>
+
+  <text x="60" y="905" font-family="monospace" font-size="13" fill="#2E4B8F">05</text>
+  <text x="86" y="905" font-family="monospace" font-size="13" letter-spacing="1" fill="#181B20">建置與部署層</text>
+  <text x="60" y="928" font-size="12" fill="#181B20">一份原始碼、靠環境變數分岐成兩種輸出 —— vite.config.js 讀取 BUILD_TARGET，</text>
+  <text x="60" y="946" font-size="12" fill="#181B20">同時切換 base 路徑與 outDir，並用 rollupOptions.input 一次打包兩個 HTML 進入點。</text>
+
+  <!-- branch A -->
+  <rect x="60" y="962" width="420" height="130" rx="8" fill="#fff" stroke="#2E4B8F" stroke-width="1"/>
+  <text x="76" y="986" font-family="monospace" font-size="12" fill="#2E4B8F">▸ npm run build</text>
+  <text x="76" y="1006" font-size="11.5" fill="#181B20">Chrome 擴充功能通道</text>
+  <text x="76" y="1026" font-family="monospace" font-size="10.5" fill="#6B7178">outDir: dist/　base: './'</text>
+  <text x="76" y="1044" font-family="monospace" font-size="10.5" fill="#6B7178">manifest.json（MV3, permissions: sidePanel）</text>
+  <text x="76" y="1062" font-family="monospace" font-size="10.5" fill="#6B7178">手動於 chrome://extensions 載入未封裝項目</text>
+  <text x="76" y="1080" font-family="monospace" font-size="10.5" fill="#6B7178">side_panel.default_path = sidepanel.html</text>
+
+  <!-- branch B -->
+  <rect x="500" y="962" width="422" height="130" rx="8" fill="#fff" stroke="#2E4B8F" stroke-width="1"/>
+  <text x="516" y="986" font-family="monospace" font-size="12" fill="#2E4B8F">▸ npm run build:gh</text>
+  <text x="516" y="1006" font-size="11.5" fill="#181B20">GitHub Pages 通道</text>
+  <text x="516" y="1026" font-family="monospace" font-size="10.5" fill="#6B7178">outDir: dist-gh/　base: '/text-emoji/'</text>
+  <text x="516" y="1044" font-family="monospace" font-size="10.5" fill="#6B7178">npm run deploy → gh-pages 套件推送</text>
+  <text x="516" y="1062" font-family="monospace" font-size="10.5" fill="#1F7A54">✓ https://miku4ocean.github.io/text-emoji/</text>
+  <text x="516" y="1080" font-family="monospace" font-size="10.5" fill="#1F7A54">✓ 已驗證與線上內容位元組級一致（2026-07-21）</text>
+
+  <!-- keystone note -->
+  <rect x="60" y="1104" width="862" height="72" rx="8" fill="#fff" stroke="#2E4B8F" stroke-dasharray="4 3"/>
+  <text x="76" y="1126" font-size="11.5" fill="#181B20"><tspan fill="#2E4B8F" font-weight="bold">為什麼是 keystone：</tspan>兩個發布形態（擴充功能 vs 網頁）共用同一顆 App 元件與</text>
+  <text x="76" y="1146" font-size="11.5" fill="#181B20">同一份資料層，只靠建置設定分岐，避免維護兩份程式碼；是唯一橫跨「介面層」與</text>
+  <text x="76" y="1164" font-size="11.5" fill="#181B20">「部署層」的結構性決定。</text>
+
+  <!-- ===== footnote: external deps ===== -->
+  <rect x="40" y="1220" width="920" height="150" rx="10" fill="#FBFAF7" stroke="#B8860B" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="60" y="1248" font-family="monospace" font-size="13" letter-spacing="1" fill="#B8860B">＋ 外部依賴／已知限制</text>
+  <text x="60" y="1274" font-size="11.5" fill="#181B20">・Google Fonts CDN（Inter、Noto Sans TC），index.html/sidepanel.html &lt;head&gt; 以 &lt;link&gt; 載入；</text>
+  <text x="76" y="1292" font-size="11.5" fill="#B8860B">有 system-ui 字型 fallback chain，CDN 失敗時實際降級行為【未確認】。</text>
+  <text x="60" y="1314" font-size="11.5" fill="#181B20">・lucide-react 圖示套件：建置期打包進 bundle，非 runtime CDN。</text>
+  <text x="60" y="1336" font-size="11.5" fill="#181B20">・EmojiTab／KaomojiTab 搜尋列目前為裝飾用（filter 被忽略），非 bug、屬既有留白。</text>
+  <text x="60" y="1358" font-size="11.5" fill="#181B20">・無後端／無 API／無資料庫／無使用者帳號系統。</text>
+
+  <!-- ===== build log ===== -->
+  <rect x="40" y="1392" width="920" height="190" rx="10" fill="#101216"/>
+  <text x="60" y="1418" font-family="monospace" font-size="11" letter-spacing="1" fill="#9aa0aa">BUILD LOG · 依 HANDOFF.md 2026-07-21 記載</text>
+  <text x="60" y="1444" font-family="monospace" font-size="12" fill="#7fa0e8">▸ npm run build:gh</text>
+  <text x="60" y="1466" font-family="monospace" font-size="12" fill="#4fd39a">✓ 建置成功，node --check 全部 JS/bundle 通過</text>
+  <text x="60" y="1488" font-family="monospace" font-size="12" fill="#4fd39a">✓ Playwright headless 載入 dist-gh，5 分頁與主題切換皆可點擊、無 console error</text>
+  <text x="60" y="1510" font-family="monospace" font-size="12" fill="#4fd39a">✓ 逐位元組比對：本機 dist-gh ＝ origin/gh-pages ＝ 線上實際回應，三者一致</text>
+  <text x="60" y="1532" font-family="monospace" font-size="12" fill="#4fd39a">✓ grep 未發現硬編碼金鑰</text>
+  <text x="60" y="1560" font-family="monospace" font-size="11" fill="#6b7178">▸ npm run lint：僅剩 2 條 react-hooks/set-state-in-effect 建議（非執行期錯誤，未動）</text>
+
+  <text x="500" y="1630" text-anchor="middle" font-family="monospace" font-size="11" fill="#6B7178">text-emoji · docs/architecture.svg · Galley 視覺語言</text>
+</svg>

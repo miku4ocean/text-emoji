@@ -1,0 +1,78 @@
+%% text-emoji 架構圖 — Galley 視覺語言／繁體中文
+%% 純前端工具，無後端、無資料庫、無 API。五層由上而下。
+%% Keystone：vite.config.js 以 BUILD_TARGET 環境變數分岐建置成兩種輸出（同一份原始碼）。
+
+flowchart TB
+
+    subgraph L1["01 使用者介面層 · 雙重進入點"]
+        direction TB
+        IDX["index.html<br/>網頁版／GitHub Pages 入口"]
+        SPL["sidepanel.html<br/>Chrome 擴充功能側邊面板入口"]
+        MAIN["main.jsx<br/>createRoot 掛載（StrictMode）"]
+        APP["App.jsx<br/>Header・分頁列・搜尋列・Toast"]
+        T1["EmojiTab<br/>表情符號"]
+        T2["SymbolTab<br/>文字符號"]
+        T3["KaomojiTab<br/>顏文字"]
+        T4["WhitespaceTab<br/>空白工具"]
+        T5["LineBreakTab<br/>斷行工具"]
+        IDX --> MAIN
+        SPL --> MAIN
+        MAIN --> APP
+        APP --> T1
+        APP --> T2
+        APP --> T3
+        APP --> T4
+        APP --> T5
+    end
+
+    subgraph L2["02 應用狀態邏輯層"]
+        STATE["App.jsx 集中狀態<br/>activeTab・search・theme・toast<br/>recentEmojis／recentSymbols／recentKaomojis"]
+        NOTE2["已知限制（讀碼確認）：<br/>EmojiTab／KaomojiTab 目前忽略 filter<br/>只有 SymbolTab 真正實作搜尋過濾"]
+    end
+
+    subgraph L3["03 瀏覽器 API 層（無後端 API）"]
+        CLIP["navigator.clipboard.writeText<br/>點擊項目即複製"]
+        LS["localStorage<br/>emoji-toolbox-theme<br/>recent_emojis／recent_symbols／recent_kaomojis（各上限24筆）"]
+    end
+
+    subgraph L4["04 本機靜態資料層（無資料庫）"]
+        D1["emojis.js<br/>8 類・1762 個"]
+        D2["symbols.js<br/>54 類・3372 個"]
+        D3["kaomojis.js<br/>16 類・480 個"]
+    end
+
+    subgraph L5["05 建置與部署層 —— KEYSTONE：一份原始碼、雙重輸出"]
+        VC["vite.config.js<br/>依 BUILD_TARGET 環境變數分岐"]
+        B1["npm run build<br/>→ dist/（base:'./'）"]
+        B2["npm run build:gh<br/>→ dist-gh/（base:'/text-emoji/'）"]
+        EXT["Chrome 擴充功能<br/>manifest.json MV3・permissions:sidePanel"]
+        PAGES["npm run deploy → gh-pages 套件<br/>https://miku4ocean.github.io/text-emoji/"]
+        VC --> B1 --> EXT
+        VC --> B2 --> B2A["node --check + Playwright 驗證<br/>（HANDOFF 2026-07-21 記載）"] --> PAGES
+    end
+
+    EXTDEP["外部依賴（未確認離線行為細節）<br/>Google Fonts CDN：Inter・Noto Sans TC<br/>lucide-react 圖示（建置期打包，非 runtime CDN）"]
+
+    T1 & T2 & T3 & T4 & T5 --> STATE
+    STATE --> NOTE2
+    STATE --> CLIP
+    STATE --> LS
+    T1 --> D1
+    T2 --> D2
+    T3 --> D3
+    IDX -.runtime載入.-> EXTDEP
+    SPL -.runtime載入.-> EXTDEP
+    B1 -.封裝同一份.-> IDX
+    B1 -.封裝同一份.-> SPL
+    B2 -.封裝同一份.-> IDX
+    B2 -.封裝同一份.-> SPL
+
+    classDef keystone fill:#EAEEF7,stroke:#2E4B8F,stroke-width:3px,color:#181B20,font-weight:bold;
+    classDef normal fill:#FBFAF7,stroke:#E7E3DA,stroke-width:1px,color:#181B20;
+    classDef note fill:#FBFAF7,stroke:#B8860B,stroke-width:1px,stroke-dasharray:3 3,color:#6B7178;
+    classDef ext fill:#FBFAF7,stroke:#B8860B,stroke-width:1px,stroke-dasharray:4 3,color:#181B20;
+
+    class VC,B1,B2,B2A keystone;
+    class IDX,SPL,MAIN,APP,T1,T2,T3,T4,T5,STATE,CLIP,LS,D1,D2,D3,EXT,PAGES normal;
+    class NOTE2 note;
+    class EXTDEP ext;

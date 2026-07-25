@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>text-emoji · mockup · 表情符號分頁</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+:root{
+  --paper:#FBFAF7; --ink:#181B20; --muted:#6B7178;
+  --line:#E7E3DA; --accent:#2E4B8F; --accent-soft:#EAEEF7;
+  --ok:#1F7A54; --err:#B03A2E; --warn:#B8860B;
+  --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Noto Sans TC",sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Code",Menlo,monospace;
+}
+*{box-sizing:border-box;}
+body{ margin:0; background:#EDEAE2; font-family:var(--sans); color:var(--ink); padding:32px 16px 80px; }
+.wrap{ max-width:460px; margin:0 auto; }
+.mockup-badge{
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; color:var(--muted);
+  text-align:center; margin-bottom:10px;
+}
+.mockup-badge b{ color:var(--accent); }
+.frame{
+  background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  box-shadow:0 8px 28px rgba(24,27,32,.08);
+}
+a.back{ display:inline-block; margin-bottom:14px; font-family:var(--mono); font-size:.75rem; color:var(--accent); text-decoration:none; }
+a.back:hover{ text-decoration:underline; }
+
+/* app header */
+.app-header{ display:flex; justify-content:space-between; align-items:center; padding:16px 18px 12px; border-bottom:1px solid var(--line); }
+.app-title{ font-family:var(--serif); font-size:1.15rem; margin:0; }
+.app-title .dot{ color:var(--accent); }
+.theme-btn{ width:32px; height:32px; border-radius:8px; border:1px solid var(--line); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:.9rem; }
+
+/* tabs */
+.tabs{ display:flex; gap:6px; padding:10px 18px; border-bottom:1px solid var(--line); }
+.tab-btn{ flex:1; padding:8px 0; border-radius:8px; border:1px solid var(--line); background:#fff; text-align:center; font-size:.85rem; color:var(--muted); }
+.tab-btn.active{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600; }
+
+/* sub header */
+.sub-header{ padding:12px 18px 6px; }
+.sub-title{ margin:0; font-size:1rem; }
+.sub-desc{ margin:2px 0 0; font-size:.78rem; color:var(--muted); }
+
+/* search */
+.search-bar{ margin:10px 18px 4px; display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:8px; padding:8px 12px; background:#fff; }
+.search-bar span{ color:var(--muted); font-size:.85rem; }
+.search-bar input{ flex:1; }
+.search-fake{ flex:1; color:var(--muted); font-size:.85rem; }
+
+/* content */
+.content{ padding:8px 18px 20px; max-height:520px; overflow:auto; }
+.section{ margin-top:16px; }
+.section-header{
+  font-family:var(--mono); text-transform:uppercase; letter-spacing:.1em; font-size:.68rem;
+  color:var(--muted); margin-bottom:8px;
+}
+.grid{ display:grid; grid-template-columns:repeat(8,1fr); gap:6px; }
+.item-btn{
+  aspect-ratio:1; border:1px solid var(--line); border-radius:6px; background:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+}
+.item-btn.recent{ border-color:var(--accent); background:var(--accent-soft); }
+
+/* toast */
+.toast-row{ padding:0 18px 18px; }
+.toast{
+  display:inline-block; background:var(--ink); color:#fff; font-size:.78rem; padding:6px 14px;
+  border-radius:999px;
+}
+
+.notes{ max-width:460px; margin:18px auto 0; font-size:.78rem; color:var(--muted); font-family:var(--mono); line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← 返回 mockup 總覽</a>
+  <div class="mockup-badge">MOCKUP · <b>front-emoji</b> · 依 src/components/EmojiTab.jsx 實際結構繪製</div>
+
+  <div class="frame">
+    <header class="app-header">
+      <h1 class="app-title">✨ Emoji 工具箱<span class="dot"></span></h1>
+      <div class="theme-btn">☀</div>
+    </header>
+
+    <div class="tabs">
+      <div class="tab-btn active">😊</div>
+      <div class="tab-btn">T</div>
+      <div class="tab-btn">🐱</div>
+      <div class="tab-btn">≡</div>
+      <div class="tab-btn">↩</div>
+    </div>
+
+    <div class="sub-header">
+      <h2 class="sub-title">表情符號</h2>
+      <p class="sub-desc">點擊複製表情符號</p>
+    </div>
+
+    <div class="search-bar">
+      <span>🔍</span>
+      <span class="search-fake">搜尋...</span>
+    </div>
+
+    <div class="content">
+      <div class="section">
+        <div class="section-header">最近使用</div>
+        <div class="grid">
+          <div class="item-btn recent">😀</div>
+          <div class="item-btn recent">❤️</div>
+          <div class="item-btn recent">🔥</div>
+          <div class="item-btn recent">🎉</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">笑臉與人物</div>
+        <div class="grid">
+          <div class="item-btn">😀</div><div class="item-btn">😃</div><div class="item-btn">😄</div><div class="item-btn">😁</div>
+          <div class="item-btn">😆</div><div class="item-btn">😅</div><div class="item-btn">🤣</div><div class="item-btn">😂</div>
+          <div class="item-btn">🙂</div><div class="item-btn">😉</div><div class="item-btn">😊</div><div class="item-btn">😍</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">動物與大自然</div>
+        <div class="grid">
+          <div class="item-btn">🐶</div><div class="item-btn">🐱</div><div class="item-btn">🦊</div><div class="item-btn">🦁</div>
+          <div class="item-btn">🐼</div><div class="item-btn">🐨</div><div class="item-btn">🌸</div><div class="item-btn">🌲</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">…共 8 個分類（1762 個表情符號，資料來自 src/data/emojis.js）</div>
+      </div>
+    </div>
+
+    <div class="toast-row">
+      <span class="toast">已複製！</span>
+    </div>
+  </div>
+
+  <div class="notes">
+    ▸ 分類與內容取自 src/data/emojis.js（8 類）<br/>
+    ▸ 搜尋框目前存在但 filter 被 EmojiTab.jsx 忽略（讀碼確認，非本 mockup 臆造）<br/>
+    ▸ 最近使用來自 localStorage（recent_emojis，上限 24 筆）
+  </div>
+</div>
+</body>
+</html>
