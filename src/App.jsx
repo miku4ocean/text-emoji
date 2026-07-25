@@ -40,29 +40,18 @@ function App() {
   const [toast, setToast] = useState(null);
   const [theme, setTheme] = useState(getStoredTheme);
 
-  // Recents state
-  const [recentEmojis, setRecentEmojis] = useState([]);
-  const [recentSymbols, setRecentSymbols] = useState([]);
-  const [recentKaomojis, setRecentKaomojis] = useState([]);
+  // Recents state (lazy init: read localStorage once on first render,
+  // instead of setState inside a mount effect)
+  const [recentEmojis, setRecentEmojis] = useState(() => getRecent('recent_emojis'));
+  const [recentSymbols, setRecentSymbols] = useState(() => getRecent('recent_symbols'));
+  const [recentKaomojis, setRecentKaomojis] = useState(() => getRecent('recent_kaomojis'));
 
-  // Initialize theme on mount
-  useEffect(() => {
-    const savedTheme = getStoredTheme();
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
-
-  // Apply theme changes
+  // Apply theme changes (theme state itself is lazy-initialized from storage,
+  // so no extra mount effect / setState-in-effect is needed)
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     setStoredTheme(theme);
   }, [theme]);
-
-  useEffect(() => {
-    setRecentEmojis(getRecent('recent_emojis'));
-    setRecentSymbols(getRecent('recent_symbols'));
-    setRecentKaomojis(getRecent('recent_kaomojis'));
-  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';

@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react';
 import { kaomojis } from '../data/kaomojis';
+import { filterGroups } from '../utils/filterGroups';
 
 const KaomojiTab = ({ recent, onSelect, filter }) => {
-    const filteredGroups = useMemo(() => {
-        if (!filter) return kaomojis;
-        return kaomojis;
-    }, [filter]);
+    const filteredGroups = useMemo(() => filterGroups(kaomojis, filter), [filter]);
 
     return (
         <div>

@@ -1,15 +1,9 @@
 import React, { useMemo } from 'react';
 import { emojis } from '../data/emojis';
+import { filterGroups } from '../utils/filterGroups';
 
 const EmojiTab = ({ recent, onSelect, filter }) => {
-    const filteredGroups = useMemo(() => {
-        if (!filter) return emojis;
-        // Simple filter?? Emojis are chars. Hard to filter without metadata.
-        // We'll skip filter for emojis unless we map names. 
-        // To keep it simple and efficient, we won't correct filter applied to main emojis unless exact match (useless).
-        // So we ignore filter for emojis actually.
-        return emojis;
-    }, [filter]);
+    const filteredGroups = useMemo(() => filterGroups(emojis, filter), [filter]);
 
     return (
         <div>

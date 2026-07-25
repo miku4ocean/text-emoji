@@ -9,6 +9,7 @@
     "build": "vite build",
     "build:gh": "BUILD_TARGET=gh-pages vite build",
     "lint": "eslint .",
+    "test": "vitest run",
     "preview": "vite preview",
     "deploy": "npm run build:gh && gh-pages -d dist-gh"
   },
@@ -27,6 +28,8 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
-    "vite": "^7.2.4"
+    "jsdom": "^29.1.1",
+    "vite": "^7.2.4",
+    "vitest": "^4.1.10"
   }
 }

@@ -1,24 +1,9 @@
 import React, { useMemo } from 'react';
 import { symbols } from '../data/symbols';
+import { filterGroups } from '../utils/filterGroups';
 
 const SymbolTab = ({ recent, onSelect, filter }) => {
-    const filteredGroups = useMemo(() => {
-        if (!filter) return symbols;
-        // Filter by checking if items include the filter text (useful if user pastes a symbol to find category?)
-        // or filtering by category name
-        const lowerFilter = filter.toLowerCase();
-        return symbols.map(cat => {
-            // If category name matches, show all items in that category
-            if (cat.category.toLowerCase().includes(lowerFilter)) {
-                return cat;
-            }
-            // Otherwise, filter items that include the filter text
-            return {
-                ...cat,
-                items: cat.items.filter(item => item.includes(filter))
-            };
-        }).filter(cat => cat.items.length > 0);
-    }, [filter]);
+    const filteredGroups = useMemo(() => filterGroups(symbols, filter), [filter]);
 
     return (
         <div>
