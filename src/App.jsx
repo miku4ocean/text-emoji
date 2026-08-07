@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Smile, Type, Cat, AlignLeft, WrapText, Search, Sun, Moon } from 'lucide-react';
 import EmojiTab from './components/EmojiTab';
 import SymbolTab from './components/SymbolTab';
@@ -59,9 +59,11 @@ function App() {
     showToast(newTheme === 'light' ? '🌞 亮色模式' : '🌙 深色模式');
   };
 
+  const toastTimer = useRef(null);
   const showToast = (msg) => {
+    clearTimeout(toastTimer.current);
     setToast(msg);
-    setTimeout(() => setToast(null), 2000);
+    toastTimer.current = setTimeout(() => setToast(null), 2000);
   };
 
   const handleSelect = async (item, type) => {
