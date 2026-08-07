@@ -99,6 +99,7 @@ function App() {
           className="theme-toggle"
           onClick={toggleTheme}
           title={theme === 'dark' ? '切換亮色模式' : '切換深色模式'}
+          aria-label={theme === 'dark' ? '切換亮色模式' : '切換深色模式'}
         >
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
@@ -114,6 +115,7 @@ function App() {
               className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
               onClick={() => { setActiveTab(tab.id); setSearch(''); }}
               title={tab.label}
+              aria-label={tab.label}
             >
               <Icon size={18} />
             </button>

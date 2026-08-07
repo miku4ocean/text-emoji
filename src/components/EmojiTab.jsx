@@ -12,7 +12,7 @@ const EmojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">最近使用</div>
                     <div className="grid">
                         {recent.map((e, i) => (
-                            <button key={`recent-${i}`} className="item-btn" onClick={() => onSelect(e)}>
+                            <button key={`recent-${i}`} className="item-btn" onClick={() => onSelect(e)} aria-label={`複製 ${e}`}>
                                 {e}
                             </button>
                         ))}
@@ -25,7 +25,7 @@ const EmojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">{cat.category}</div>
                     <div className="grid">
                         {cat.items.map(e => (
-                            <button key={e} className="item-btn" onClick={() => onSelect(e)}>
+                            <button key={e} className="item-btn" onClick={() => onSelect(e)} aria-label={`複製 ${e}`}>
                                 {e}
                             </button>
                         ))}
