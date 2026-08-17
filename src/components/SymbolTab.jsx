@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react';
 import { symbols } from '../data/symbols';
 import { filterGroups } from '../utils/filterGroups';
+import EmptyState from './EmptyState';
 
 const SymbolTab = ({ recent, onSelect, filter }) => {
     const filteredGroups = useMemo(() => filterGroups(symbols, filter), [filter]);
+
+    if (filter && filteredGroups.length === 0) {
+        return <EmptyState filter={filter} />;
+    }
 
     return (
         <div>

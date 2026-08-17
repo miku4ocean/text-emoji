@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react';
 import { emojis } from '../data/emojis';
 import { filterGroups } from '../utils/filterGroups';
+import EmptyState from './EmptyState';
 
 const EmojiTab = ({ recent, onSelect, filter }) => {
     const filteredGroups = useMemo(() => filterGroups(emojis, filter), [filter]);
+
+    if (filter && filteredGroups.length === 0) {
+        return <EmptyState filter={filter} />;
+    }
 
     return (
         <div>

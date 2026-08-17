@@ -15,7 +15,7 @@ export const filterGroups = (groups, filter) => {
             }
             return {
                 ...cat,
-                items: cat.items.filter(item => item.includes(filter)),
+                items: cat.items.filter(item => item.toLowerCase().includes(lowerFilter)),
             };
         })
         .filter(cat => cat.items.length > 0);

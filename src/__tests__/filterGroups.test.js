@@ -40,6 +40,16 @@ describe('filterGroups（合成資料）', () => {
     it('完全沒有命中時回傳空陣列', () => {
         expect(filterGroups(sample, '不存在的東西')).toEqual([]);
     });
+
+    it('分類名稱未命中、逐項比對時同樣不分大小寫', () => {
+        // 「雜項」分類名不含 "tm"，需逐項比對；'TM' 項目要能被小寫的 'tm' 找到
+        const withAscii = [
+            ...sample,
+            { category: '雜項2', items: ['TM', '♥'] },
+        ];
+        const result = filterGroups(withAscii, 'tm');
+        expect(result).toEqual([{ category: '雜項2', items: ['TM'] }]);
+    });
 });
 
 describe('filterGroups（真實資料）', () => {
