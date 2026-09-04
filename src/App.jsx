@@ -18,9 +18,15 @@ const TABS = [
 ];
 
 // Theme utility functions
+const THEMES = ['dark', 'light'];
+
 const getStoredTheme = () => {
   try {
-    return localStorage.getItem('emoji-toolbox-theme') || 'dark';
+    // localStorage 是同網域共用的，只認得 dark／light，
+    // 其他值一律當預設深色，避免 data-theme 設成無效值、
+    // 造成畫面配色與切換鈕狀態不一致。
+    const stored = localStorage.getItem('emoji-toolbox-theme');
+    return THEMES.includes(stored) ? stored : 'dark';
   } catch {
     return 'dark';
   }
@@ -137,6 +143,7 @@ function App() {
             type="text"
             className="search-input"
             placeholder="搜尋..."
+            aria-label={`搜尋${currentTab?.label ?? ''}`}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -174,8 +181,9 @@ function App() {
         )}
       </div>
 
-      {/* Toast */}
-      <div className={`toast ${toast ? 'visible' : ''}`}>
+      {/* Toast：複製成功／失敗是這個工具唯一的操作回饋，必須是 live region，
+          否則螢幕閱讀器使用者按下去完全不知道有沒有複製到 */}
+      <div className={`toast ${toast ? 'visible' : ''}`} role="status" aria-live="polite">
         {toast}
       </div>
     </div>

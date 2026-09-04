@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Copy, Trash2, Wand2, RotateCcw } from 'lucide-react';
+import { countChars } from '../utils/text';
 
 const WhitespaceTab = ({ onNotify }) => {
     const [text, setText] = useState('');
 
     // Count zero-width spaces in text
+    // \u5B57\u5143\u6578\u4EE5 grapheme \u8A08\u7B97\uFF0C\u5426\u5247 emoji\uFF0FZWJ \u7D44\u5408\u5B57\u6703\u88AB String.length \u7B97\u6210\u597D\u5E7E\u500B
     const zwspCount = (text.match(/\u200B/g) || []).length;
-    const totalChars = text.length;
+    const totalChars = countChars(text);
     const visibleChars = totalChars - zwspCount;
 
     const handleInject = () => {
@@ -31,11 +33,15 @@ const WhitespaceTab = ({ onNotify }) => {
     };
 
     const copyToClipboard = async (txt) => {
+        const isProcessed = txt !== undefined;
         try {
-            await navigator.clipboard.writeText(txt || text);
-            onNotify(txt ? '已處理並複製！' : '已複製！');
+            await navigator.clipboard.writeText(isProcessed ? txt : text);
+            onNotify(isProcessed ? '已處理並複製！' : '已複製！');
         } catch (err) {
+            // 權限被拒、非安全來源、舊瀏覽器沒有 navigator.clipboard 都會走到這裡。
+            // 只寫 console 的話畫面毫無反應，使用者會以為已經複製好了。
             console.error('Failed to copy', err);
+            onNotify(isProcessed ? '已處理，但複製失敗，請手動複製' : '複製失敗，請手動複製');
         }
     };
 

@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { Minus, Merge, SplitSquareHorizontal, Space } from 'lucide-react';
+import { countChars } from '../utils/text';
+
+// 一整組句末標點：連續的 。！？ 加上後面跟著的右引號／右括號類字元。
+// 斷行要加在整組之後，否則「。」」會被拆成兩行、「！！！」會被拆成三行。
+const SENTENCE_END = /[。！？]+[」』）〕】》〉｝］”’〞＂)\]}"']*/g;
 
 const LineBreakTab = ({ onNotify }) => {
     const [text, setText] = useState('');
@@ -10,12 +15,17 @@ const LineBreakTab = ({ onNotify }) => {
     const doubleBreakCount = (text.match(/\n\n/g) || []).length;
 
     const copyToClipboard = async (newText) => {
+        // 先套用轉換再複製：clipboard 失敗（權限被拒／非安全來源／沒有
+        // navigator.clipboard）時，至少處理結果還在框裡，使用者可以自己複製。
+        // 舊寫法把 setText 放在 await 之後，一失敗就整個轉換都沒發生，
+        // 按鈕按下去畫面毫無變化又沒有錯誤提示。
+        setText(newText);
         try {
             await navigator.clipboard.writeText(newText);
-            setText(newText);
             onNotify('已處理並複製！');
         } catch (err) {
             console.error('Failed to copy', err);
+            onNotify('已處理，但複製失敗，請手動複製');
         }
     };
 
@@ -39,11 +49,10 @@ const LineBreakTab = ({ onNotify }) => {
     const handleAddBreakAfterPeriod = () => {
         if (!text) return;
         setActiveMode('addBreak');
-        // 只處理全形標點符號，避免誤判網址等內容
+        // 只處理全形標點符號，避免誤判網址等內容；
+        // 連續標點與後面的右引號／右括號視為同一組，斷行加在整組之後
         const newText = text
-            .replace(/。/g, '。\n')
-            .replace(/！/g, '！\n')
-            .replace(/？/g, '？\n')
+            .replace(SENTENCE_END, (group) => `${group}\n`)
             // 清理可能產生的多餘換行
             .replace(/\n{2,}/g, '\n')
             .trim();
@@ -85,7 +94,7 @@ const LineBreakTab = ({ onNotify }) => {
                 borderRadius: '6px',
                 border: '1px solid var(--border)'
             }}>
-                <span>總字元: <strong style={{ color: 'var(--text-primary)' }}>{text.length}</strong></span>
+                <span>總字元: <strong style={{ color: 'var(--text-primary)' }}>{countChars(text)}</strong></span>
                 <span>換行數: <strong style={{ color: 'var(--text-primary)' }}>{lineBreakCount}</strong></span>
                 <span>雙換行: <strong style={{ color: doubleBreakCount > 0 ? 'var(--success)' : 'var(--text-primary)' }}>{doubleBreakCount}</strong></span>
             </div>

@@ -23,6 +23,13 @@ describe('App lazy state init（首次 render 即讀取 localStorage，不靠 ef
         expect(html).toContain('切換深色模式');
     });
 
+    // 同網域（例如同一個 GitHub Pages 帳號下的多個工具）若把非陣列值寫進同名 key，
+    // 整個 App 會在 `recent.map(...)` 當場拋錯 → 白屏。
+    it('recent_* 存的是非陣列 JSON 時仍能正常 render（不白屏）', () => {
+        localStorage.setItem('recent_emojis', JSON.stringify('壞掉的值'));
+        expect(() => renderToString(<App />)).not.toThrow();
+    });
+
     it('有最近使用紀錄時，首次 render 即顯示「最近使用」與該項目', () => {
         localStorage.setItem('recent_emojis', JSON.stringify(['😀', '🐱']));
         const html = renderToString(<App />);

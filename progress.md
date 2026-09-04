@@ -48,9 +48,9 @@ text-emoji（README 顯示名稱：✨ Emoji 工具箱 / Emoji Toolbox）
 
 依 `src/App.jsx` 與 5 個 `src/components/*.jsx` 實際讀碼確認：
 
-- **表情符號分頁**（EmojiTab）：8 個分類、1762 個 emoji，點擊即複製，含「最近使用」（localStorage，上限 24 筆）。搜尋已於 2026-07-26 修復生效（共用 `src/utils/filterGroups.js`：分類名稱不分大小寫比對，未命中時逐項比對字元內容）。
-- **文字符號分頁**（SymbolTab）：54 個分類、3369 個符號（2026-07-25 清理 3 筆轉檔損壞資料：`" Ferry︎"` 改回正確的 `⛴︎`、移除 `"<ctrl42>"` 殘留與 2 個空字串，原 3372 → 3369，無正常符號遺失）。搜尋生效，邏輯同上（原 SymbolTab 內建邏輯抽出為共用函式）。
-- **顏文字分頁**（KaomojiTab）：16 個分類、480 個日式顏文字。搜尋已於 2026-07-26 修復生效，邏輯同上。
+- **表情符號分頁**（EmojiTab）：8 個分類、1761 個 emoji，點擊即複製，含「最近使用」（localStorage，上限 24 筆）。搜尋已於 2026-07-26 修復生效（共用 `src/utils/filterGroups.js`：分類名稱不分大小寫比對，未命中時逐項比對字元內容）。
+- **文字符號分頁**（SymbolTab）：54 個分類、3366 個符號（2026-07-25 清理 3 筆轉檔損壞資料：`" Ferry︎"` 改回正確的 `⛴︎`、移除 `"<ctrl42>"` 殘留與 2 個空字串，原 3372 → 3369；2026-09-04 再移除 3 筆同分類內重複項目 → 3366，無正常符號遺失）。搜尋生效，邏輯同上（原 SymbolTab 內建邏輯抽出為共用函式）。
+- **顏文字分頁**（KaomojiTab）：16 個分類、477 個日式顏文字。搜尋已於 2026-07-26 修復生效，邏輯同上。
 - **空白工具分頁**（WhitespaceTab）：在文字的每個空格與換行後注入零寬度空格 (U+200B)；顯示可見字元／隱形空格／總字元數統計；提供注入、複製、清除、還原四個操作。
 - **斷行工具分頁**（LineBreakTab）：四個獨立處理模式——移除多餘換行（`\n{2,}` → `\n`）、合併所有斷行（移除全部 `\n`）、句號後加斷行（僅處理全形。！？，刻意不處理半形以避免誤斷網址）、雙斷行加空白（在雙換行間插入 ZWSP 保留段落間距）。按鈕點擊後以 accent 色標示目前使用中的模式。
 - **主題切換**：Header 右上角太陽／月亮圖示，深色／亮色模式切換，偏好存於 `localStorage`（key: `emoji-toolbox-theme`），並在 `index.html`/`sidepanel.html` 內以行內 `<script>` 提前套用，避免刷新閃爍（FOUC）。
@@ -136,4 +136,25 @@ text-emoji（README 顯示名稱：✨ Emoji 工具箱 / Emoji Toolbox）
 
 ---
 
-*本報告由讀取 `/Users/leonalin/Code/text-emoji` 專案的 HANDOFF.md、AGENTS.md、CLAUDE.md、README.md、package.json、vite.config.js、src/App.jsx、src/main.jsx、src/components/*.jsx、src/utils/recent.js、src/data/*.js、public/manifest.json、index.html、sidepanel.html 後整理，2026-07-24；2026-07-26 補記 K 節修復輪紀錄。*
+
+## L. 2026-09-04 深度偵錯輪（首輪）
+
+build/lint/test 全綠但產品實際壞掉的 7 組真 bug，全部先寫紅測試再修：
+
+1. **同分類內重複項目**（`src/data/*.js`）：`活動` 的 👼、`語言符號 - 字母字型` 的「构建」「𝘥」、`語言符號 - 日文字元` 的「ぺ」、顏文字 `愛心浪漫` 與 `傷心難過` 共 7 筆完全重複。三個 Tab 都用 `key={item}` 逐項渲染，重複值讓 React 在瀏覽器 console 丟 duplicate key error，畫面也出現一模一樣的按鈕（`(｡•́︿•̀｡)` 在同一類出現 3 次）。已移除重複，筆數 1762/3369/480 → **1761/3366/477**，並加測試鎖住「同分類內不得重複」。
+2. **貼上帶 variation selector 的 emoji 搜不到**（`src/utils/filterGroups.js`）：手機鍵盤／聊天軟體複製來的 emoji 幾乎都帶著看不見的 U+FE0F（`❤️` = 2764 FE0F），symbols.js 存的是裸字元 `❤` = 2764。貼「❤️」搜文字符號 → 0 筆「找不到」，貼「❤」→ 3 筆；「⚡️」連 emoji 分頁都 0 筆。比對前統一去掉 U+FE0E／U+FE0F。
+3. **斷行工具複製失敗時整個轉換消失**（`LineBreakTab.jsx`）：`setText` 寫在 `await clipboard.writeText` 之後，剪貼簿一被拒（權限／非安全來源／舊瀏覽器無 `navigator.clipboard`）文字完全沒被處理，按鈕按下去畫面毫無變化也沒有錯誤提示。改成先套用轉換再複製，失敗時提示「已處理，但複製失敗」。
+4. **空白工具複製失敗完全靜音**（`WhitespaceTab.jsx`）：只 `console.error`，使用者以為已複製。補上失敗提示。
+5. **字元統計把一顆 emoji 算成好幾個**（`WhitespaceTab.jsx`／`LineBreakTab.jsx`）：用 `String.length`（UTF-16 code unit），😀 算 2、👍🏽 算 4、👨‍👩‍👧‍👦 算 11。新增 `src/utils/text.js` 的 `countChars()`（`Intl.Segmenter` grapheme，舊環境退回 code point）。
+6. **句號後加斷行拆壞中文標點**（`LineBreakTab.jsx`）：`他說：「今天很好。」我笑了。` → 下一行以孤零零的「」」開頭；`太棒了！！！` 被拆成三行。改成「連續的。！？ + 後續右引號／右括號」視為一組，斷行加在整組之後。
+7. **localStorage 髒值造成白屏／狀態矛盾**（`src/utils/recent.js`、`App.jsx`）：`getRecent` 直接回傳 `JSON.parse` 結果，同網域（GitHub Pages 帳號下所有工具共用 origin）若有人把字串寫進 `recent_*`，`recent.map()` 直接拋 TypeError → 整頁白屏；主題值非 dark/light 時切換鈕狀態與實際配色不一致。兩者都改為驗證後回退。另修：`addRecent` 在 localStorage 寫入失敗（無痕／容量滿）時原本回傳 `[]`，會把畫面上的「最近使用」整排清空，改為仍回傳正確清單。
+
+順手補的無障礙修正：toast 加 `role="status" aria-live="polite"`（複製成功／失敗是唯一回饋，原本螢幕閱讀器完全聽不到）、搜尋框補 `aria-label`、顏文字項目按鈕補 `aria-label`（Emoji／Symbol 早就有，只有顏文字漏掉）、`index.html`／`sidepanel.html` 移除 `user-scalable=no, maximum-scale=1.0`（擋掉手機雙指放大，WCAG 1.4.4）。
+
+**反證（不是 bug，已寫測試鎖住）**：搜尋字串的 HTML 由 React 跳脫，`<img src=x onerror=...>` 只會變成純文字；ZWJ 組合字複製與畫面完全一致（`👨‍👩‍👧‍👦` codepoints 1f468,200d,1f469,200d,1f467,200d,1f466 原封不動）；CRLF 不需處理——textarea 的 API value 依規格已把換行正規化成 LF，`\r` 進不到 state。
+
+驗收：`npm test` **63 個測試全綠**（連跑兩次一致，31 → 63）、`npm run lint` 零輸出、`npm run build:gh` `✓ built`。
+
+---
+
+*本報告由讀取 `/Users/leonalin/Code/text-emoji` 專案的 HANDOFF.md、AGENTS.md、CLAUDE.md、README.md、package.json、vite.config.js、src/App.jsx、src/main.jsx、src/components/*.jsx、src/utils/recent.js、src/data/*.js、public/manifest.json、index.html、sidepanel.html 後整理，2026-07-24；2026-07-26 補記 K 節修復輪紀錄；2026-09-04 補記 L 節深度偵錯輪。*

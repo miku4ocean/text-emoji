@@ -1,5 +1,5 @@
 # HANDOFF — text-emoji
-更新：2026-08-18／claude
+更新：2026-09-04／claude
 
 ## 目前目標
 表情符號與文字符號瀏覽器，已部署至 GitHub Pages，最後更新為放大顯示大小（2026-01-08）。
@@ -52,8 +52,23 @@
 - 驗收現況：**已驗證，「已部署穩定」屬實**（2026-07-21）
   - 逐位元組比對：線上版仍為 2026-07-26 前的 bundle，本輪修正需重新部署才生效
 
+- 2026-09-04 深度偵錯輪（首輪，7 組真 bug，全部先寫紅測試再修，明細見 progress.md L 節）：
+  1. 三個資料檔共 7 筆「同分類內完全重複」的項目 → React duplicate key error ＋ 畫面重複按鈕；
+     已移除，筆數 1762/3369/480 → **1761/3366/477**（測試已改成新數字並鎖住「不得重複」）
+  2. `filterGroups.js` 比對前未去掉 variation selector → 貼上手機鍵盤複製的「❤️」搜文字符號 0 筆、
+     「⚡️」連 emoji 分頁都 0 筆；已統一 normalize 掉 U+FE0E/U+FE0F
+  3. `LineBreakTab` 的 `setText` 寫在 `await writeText` 之後 → 剪貼簿被拒時整個轉換沒套用且無提示
+  4. `WhitespaceTab` 複製失敗只 console.error，畫面全無回饋
+  5. 兩個工具的字元統計用 `String.length` → 😀 算 2、👨‍👩‍👧‍👦 算 11；改用新的 `src/utils/text.js` `countChars()`
+  6. 「句號後加斷行」把「。」」拆兩行、「！！！」拆三行；改成整組標點（含右引號括號）後才斷
+  7. `recent.js` 直接回傳 `JSON.parse` 結果 → 同網域髒值會讓 `recent.map()` 拋錯白屏；
+     另 `addRecent` 寫入失敗時原本回傳 `[]` 會清空畫面上的最近使用
+  - 順手：toast 加 `role="status" aria-live`、搜尋框與顏文字按鈕補 aria-label、
+    兩個 HTML 移除 `user-scalable=no`（擋雙指放大）
+  - 驗收：`npm test` **63 全綠**（連跑兩次一致）、`npm run lint` 零輸出、`npm run build:gh` ✓ built
+
 ## 下一步（接手的人從這裡開始）
-1. **部署**：線上版仍是 2026-07-26 前的 bundle（含本輪 2026-08-18 的白屏修復都還沒上線），
+1. **部署**：線上版仍是 2026-07-26 前的 bundle（含 2026-08-18 白屏修復與 2026-09-04 偵錯輪都還沒上線），
    跑 `npm run deploy` 可一次推送所有修正至 GitHub Pages
 2. 可選：emoji 無名稱 metadata，中文關鍵字只能命中分類名稱；要做單顆 emoji 語意搜尋需另建 metadata
 3. 可選：補一次真實 375px/768px/1440px 截圖驗證（本輪 resize_window 工具失效，只做了 CSS 靜態走查）

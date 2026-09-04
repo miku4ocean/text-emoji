@@ -17,7 +17,7 @@ const KaomojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">最近使用</div>
                     <div className="kaomoji-grid">
                         {recent.map((e, i) => (
-                            <button key={`recent-${i}`} className="kaomoji-btn" onClick={() => onSelect(e)} title={e}>
+                            <button key={`recent-${i}`} className="kaomoji-btn" onClick={() => onSelect(e)} title={e} aria-label={`複製顏文字 ${e}`}>
                                 {e}
                             </button>
                         ))}
@@ -30,7 +30,7 @@ const KaomojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">{cat.category}</div>
                     <div className="kaomoji-grid">
                         {cat.items.map(e => (
-                            <button key={e} className="kaomoji-btn" onClick={() => onSelect(e)} title={e}>
+                            <button key={e} className="kaomoji-btn" onClick={() => onSelect(e)} title={e} aria-label={`複製顏文字 ${e}`}>
                                 {e}
                             </button>
                         ))}

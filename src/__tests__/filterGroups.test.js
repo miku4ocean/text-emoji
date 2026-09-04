@@ -76,7 +76,27 @@ describe('filterGroups（真實資料）', () => {
         const result = filterGroups(kaomojis, '愛心');
         expect(result).toHaveLength(1);
         expect(result[0].category).toContain('愛心');
-        expect(result[0].items.length).toBe(30);
+        // 30 → 29：2026-09-04 移除該分類內重複的「(´,,•ω•,,)♡」
+        expect(result[0].items.length).toBe(29);
+    });
+
+    // 使用者從聊天軟體／手機鍵盤複製來的 emoji 幾乎都帶著看不見的
+    // variation selector（U+FE0F）。symbols.js 存的是不帶 VS 的裸字元，
+    // 兩者長得一模一樣卻比對不到，搜尋直接顯示「找不到」。
+    it('symbol：貼上帶 variation selector 的「❤️」也要找到裸的「❤」', () => {
+        const withVS = filterGroups(symbols, '❤️');
+        const bare = filterGroups(symbols, '❤');
+        expect(bare.length).toBeGreaterThan(0);
+        expect(withVS).toEqual(bare);
+    });
+
+    it('emoji：貼上「⚡️」（帶 VS16）要找到資料裡的「⚡」', () => {
+        const result = filterGroups(emojis, '⚡️');
+        expect(result.some(g => g.items.includes('⚡'))).toBe(true);
+    });
+
+    it('搜尋字串只剩看不見的字元時不當機，視同未搜尋', () => {
+        expect(filterGroups(sample, '️')).toEqual(sample);
     });
 
     it('kaomoji：搜掀桌片段「┻━┻」逐項命中', () => {
