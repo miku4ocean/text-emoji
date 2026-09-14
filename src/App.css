@@ -231,14 +231,13 @@ body {
 /* Base Grid - 8 columns for better visibility */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 32px);
-  justify-content: center;
-  gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
+  gap: 3px;
 }
 
 .item-btn {
-  width: 32px;
-  height: 32px;
+  aspect-ratio: 1;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
