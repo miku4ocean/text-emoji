@@ -67,11 +67,19 @@
     兩個 HTML 移除 `user-scalable=no`（擋雙指放大）
   - 驗收：`npm test` **63 全綠**（連跑兩次一致）、`npm run lint` 零輸出、`npm run build:gh` ✓ built
 
+- 2026-09-14 功能改善 + 搜尋修正輪：
+  - **5,235 個中文 tooltip 名稱**：新增 `src/data/emojiNames.js`（1,754）、`symbolNames.js`（3,022）、`kaomojiNames.js`（459），滑鼠 hover 顯示每個符號的中文名
+  - **搜尋改用 nameMap 逐項比對**：`filterGroups(groups, filter, nameMap)` 第三參數接受名稱映射表，搜尋時比對每個項目的 tooltip 名稱，不再按分類名稱全選整個分類
+  - **格子縮小**：`grid-template-columns: repeat(auto-fill, minmax(28px, 42px))`，一列可排 10~15 個符號
+  - **方向符號補齊**：常用符號-選單加入 ◀ 和 ◁（左三角），符號數 3366→3368
+  - **測試更新**：7 個過時測試配合新邏輯重寫（分類名不再全選→改測 nameMap 行為）+ 新增 2 個 nameMap 測試
+  - **eslint patch 升級**：@eslint/js 9.39.5, eslint-plugin-react-hooks 7.1.1
+  - 驗收：`npm test` **64 全綠**；已部署 GitHub Pages（`npm run deploy`）
+  - ~~可選：emoji 無名稱 metadata~~ **已完成**：每個 emoji/符號/顏文字都有中文 tooltip 名稱
+
 ## 下一步（接手的人從這裡開始）
-1. **部署**：線上版仍是 2026-07-26 前的 bundle（含 2026-08-18 白屏修復與 2026-09-04 偵錯輪都還沒上線），
-   跑 `npm run deploy` 可一次推送所有修正至 GitHub Pages
-2. 可選：emoji 無名稱 metadata，中文關鍵字只能命中分類名稱；要做單顆 emoji 語意搜尋需另建 metadata
-3. 可選：補一次真實 375px/768px/1440px 截圖驗證（本輪 resize_window 工具失效，只做了 CSS 靜態走查）
+1. 可選：補一次真實 375px/768px/1440px 截圖驗證（之前 resize_window 工具失效，只做了 CSS 靜態走查）
+2. 可選：英文搜尋支援（目前 nameMap 只有中文名稱，搜 "smile" 仍為 0 筆）
 
 ## 地雷（別踩）
 - `npm run build:gh` 使用 `BUILD_TARGET=gh-pages` 環境變數，輸出至 dist-gh/（與一般 dist/ 不同），部署前確認用對指令
