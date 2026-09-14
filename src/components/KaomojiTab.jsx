@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { kaomojis } from '../data/kaomojis';
+import { kaomojiNames } from '../data/kaomojiNames';
 import { filterGroups } from '../utils/filterGroups';
 import EmptyState from './EmptyState';
 
@@ -17,7 +18,7 @@ const KaomojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">最近使用</div>
                     <div className="kaomoji-grid">
                         {recent.map((e, i) => (
-                            <button key={`recent-${i}`} className="kaomoji-btn" onClick={() => onSelect(e)} title={e} aria-label={`複製顏文字 ${e}`}>
+                            <button key={`recent-${i}`} className="kaomoji-btn" onClick={() => onSelect(e)} title={kaomojiNames[e] || e} aria-label={`複製顏文字 ${kaomojiNames[e] || e}`}>
                                 {e}
                             </button>
                         ))}
@@ -30,7 +31,7 @@ const KaomojiTab = ({ recent, onSelect, filter }) => {
                     <div className="section-header">{cat.category}</div>
                     <div className="kaomoji-grid">
                         {cat.items.map(e => (
-                            <button key={e} className="kaomoji-btn" onClick={() => onSelect(e)} title={e} aria-label={`複製顏文字 ${e}`}>
+                            <button key={e} className="kaomoji-btn" onClick={() => onSelect(e)} title={kaomojiNames[e] || e} aria-label={`複製顏文字 ${kaomojiNames[e] || e}`}>
                                 {e}
                             </button>
                         ))}
