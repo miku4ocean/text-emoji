@@ -231,13 +231,12 @@ body {
 /* Base Grid - 8 columns for better visibility */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 34px);
+  grid-template-columns: repeat(auto-fill, minmax(28px, 42px));
   gap: 3px;
 }
 
 .item-btn {
-  width: 34px;
-  height: 34px;
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -580,7 +579,7 @@ body {
 /* Desktop - keep compact grid */
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(auto-fill, 34px);
+    grid-template-columns: repeat(auto-fill, minmax(28px, 42px));
     gap: 3px;
   }
 
