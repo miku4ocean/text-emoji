@@ -5,7 +5,7 @@ import { filterGroups } from '../utils/filterGroups';
 import EmptyState from './EmptyState';
 
 const KaomojiTab = ({ recent, onSelect, filter }) => {
-    const filteredGroups = useMemo(() => filterGroups(kaomojis, filter), [filter]);
+    const filteredGroups = useMemo(() => filterGroups(kaomojis, filter, kaomojiNames), [filter]);
 
     if (filter && filteredGroups.length === 0) {
         return <EmptyState filter={filter} />;

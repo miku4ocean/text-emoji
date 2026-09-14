@@ -5,7 +5,7 @@ import { filterGroups } from '../utils/filterGroups';
 import EmptyState from './EmptyState';
 
 const SymbolTab = ({ recent, onSelect, filter }) => {
-    const filteredGroups = useMemo(() => filterGroups(symbols, filter), [filter]);
+    const filteredGroups = useMemo(() => filterGroups(symbols, filter, symbolNames), [filter]);
 
     if (filter && filteredGroups.length === 0) {
         return <EmptyState filter={filter} />;
