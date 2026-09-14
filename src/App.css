@@ -577,15 +577,15 @@ body {
   }
 }
 
-/* Desktop - larger grid items */
+/* Desktop - keep compact grid */
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(auto-fill, 34px);
+    gap: 3px;
   }
 
   .item-btn {
-    font-size: 1.7rem;
+    font-size: 1.2rem;
   }
 
   .kaomoji-grid {
