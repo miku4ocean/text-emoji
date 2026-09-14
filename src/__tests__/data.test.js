@@ -32,14 +32,12 @@ describe('資料檔結構完整性', () => {
         checkStructure(kaomojis);
     });
 
-    it('數量與文件記載一致：emoji 8 類 1761、符號 54 類 3366、顏文字 16 類 477', () => {
-        // 符號原記載 3372，2026-07-25 清理 2 個空字串與 1 個 "<ctrl42>" 轉檔殘留後為 3369
-        // 2026-09-04 移除「同一分類內完全重複」的項目（emoji 1、symbol 3、kaomoji 3 筆），
-        // 1762/3369/480 → 1761/3366/477；重複項目只是同一顆符號的複本，無新符號遺失
+    it('數量與文件記載一致：emoji 8 類 1761、符號 54 類 3368、顏文字 16 類 477', () => {
+        // 2026-09-14 新增 ◀◁ 兩個方向符號 → 3366 + 2 = 3368
         expect(emojis.length).toBe(8);
         expect(totalItems(emojis)).toBe(1761);
         expect(symbols.length).toBe(54);
-        expect(totalItems(symbols)).toBe(3366);
+        expect(totalItems(symbols)).toBe(3368);
         expect(kaomojis.length).toBe(16);
         expect(totalItems(kaomojis)).toBe(477);
     });

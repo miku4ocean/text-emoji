@@ -35,7 +35,7 @@ describe('搜尋無結果時顯示提示，不留白屏', () => {
 
     it('EmojiTab：有結果時不顯示空狀態提示', () => {
         const html = renderToString(
-            <EmojiTab recent={[]} onSelect={() => {}} filter="動物" />
+            <EmojiTab recent={[]} onSelect={() => {}} filter="❤" />
         );
         expect(html).not.toContain('empty-state');
     });

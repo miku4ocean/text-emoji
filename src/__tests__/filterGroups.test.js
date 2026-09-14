@@ -3,6 +3,9 @@ import { filterGroups } from '../utils/filterGroups';
 import { emojis } from '../data/emojis';
 import { symbols } from '../data/symbols';
 import { kaomojis } from '../data/kaomojis';
+import { emojiNames } from '../data/emojiNames';
+import { symbolNames } from '../data/symbolNames';
+import { kaomojiNames } from '../data/kaomojiNames';
 
 const sample = [
     { category: 'Arrows 箭頭', items: ['→', '←', '↑'] },
@@ -10,27 +13,29 @@ const sample = [
     { category: '雜項', items: ['♥', '★彡'] },
 ];
 
+const sampleNames = { '→': '右箭頭', '←': '左箭頭', '↑': '上箭頭', '★': '實心星', '☆': '空心星', '♥': '愛心', '★彡': '流星' };
+
 describe('filterGroups（合成資料）', () => {
     it('空 filter 回傳原陣列（同一參考）', () => {
         expect(filterGroups(sample, '')).toBe(sample);
         expect(filterGroups(sample, undefined)).toBe(sample);
     });
 
-    it('分類名稱命中時保留整個分類', () => {
+    it('不傳 nameMap 時分類名稱不會觸發全選', () => {
         const result = filterGroups(sample, '星星');
-        expect(result).toHaveLength(1);
-        expect(result[0].items).toEqual(['★', '☆']);
+        expect(result).toEqual([]);
     });
 
-    it('分類名稱比對不分大小寫', () => {
-        const result = filterGroups(sample, 'arrows');
-        expect(result).toHaveLength(1);
-        expect(result[0].category).toBe('Arrows 箭頭');
+    it('傳入 nameMap 可透過項目名稱搜尋', () => {
+        const result = filterGroups(sample, '星', sampleNames);
+        expect(result).toEqual([
+            { category: '星星', items: ['★', '☆'] },
+            { category: '雜項', items: ['★彡'] },
+        ]);
     });
 
-    it('分類名稱未命中時逐項比對字元內容', () => {
+    it('不傳 nameMap 時只比對項目字元內容', () => {
         const result = filterGroups(sample, '★');
-        // 「星星」分類名不含「★」，逐項比對：「★」留、「☆」濾掉；「雜項」剩「★彡」
         expect(result).toEqual([
             { category: '星星', items: ['★'] },
             { category: '雜項', items: ['★彡'] },
@@ -41,8 +46,7 @@ describe('filterGroups（合成資料）', () => {
         expect(filterGroups(sample, '不存在的東西')).toEqual([]);
     });
 
-    it('分類名稱未命中、逐項比對時同樣不分大小寫', () => {
-        // 「雜項」分類名不含 "tm"，需逐項比對；'TM' 項目要能被小寫的 'tm' 找到
+    it('逐項比對時不分大小寫', () => {
         const withAscii = [
             ...sample,
             { category: '雜項2', items: ['TM', '♥'] },
@@ -50,14 +54,21 @@ describe('filterGroups（合成資料）', () => {
         const result = filterGroups(withAscii, 'tm');
         expect(result).toEqual([{ category: '雜項2', items: ['TM'] }]);
     });
+
+    it('nameMap 比對也不分大小寫', () => {
+        const result = filterGroups(sample, '箭頭', sampleNames);
+        expect(result).toHaveLength(1);
+        expect(result[0].category).toBe('Arrows 箭頭');
+        expect(result[0].items).toEqual(['→', '←', '↑']);
+    });
 });
 
-describe('filterGroups（真實資料）', () => {
-    it('emoji：搜「動物」只留「動物與大自然」分類', () => {
-        const result = filterGroups(emojis, '動物');
-        expect(result).toHaveLength(1);
-        expect(result[0].category).toBe('動物與大自然');
-        expect(result[0].items.length).toBeGreaterThan(0);
+describe('filterGroups（真實資料 + nameMap）', () => {
+    it('emoji：搜「笑」透過 emojiNames 找到名稱含「笑」的表情', () => {
+        const result = filterGroups(emojis, '笑', emojiNames);
+        expect(result.length).toBeGreaterThan(0);
+        const allItems = result.flatMap(g => g.items);
+        expect(allItems.length).toBeGreaterThan(3);
     });
 
     it('emoji：貼上「❤️」可找到含該字元的項目', () => {
@@ -66,23 +77,18 @@ describe('filterGroups（真實資料）', () => {
         expect(result.some(g => g.items.includes('❤️'))).toBe(true);
     });
 
-    it('symbol：搜「音符」命中音符分類', () => {
-        const result = filterGroups(symbols, '音符');
+    it('symbol：搜「音」透過 symbolNames 找到音樂符號', () => {
+        const result = filterGroups(symbols, '音', symbolNames);
         expect(result.length).toBeGreaterThan(0);
-        expect(result.some(g => g.category.includes('音符'))).toBe(true);
+        const allItems = result.flatMap(g => g.items);
+        expect(allItems.length).toBeGreaterThan(0);
     });
 
-    it('kaomoji：搜「愛心」命中愛心浪漫分類', () => {
-        const result = filterGroups(kaomojis, '愛心');
-        expect(result).toHaveLength(1);
-        expect(result[0].category).toContain('愛心');
-        // 30 → 29：2026-09-04 移除該分類內重複的「(´,,•ω•,,)♡」
-        expect(result[0].items.length).toBe(29);
+    it('kaomoji：搜「愛」透過 kaomojiNames 找到愛心相關顏文字', () => {
+        const result = filterGroups(kaomojis, '愛', kaomojiNames);
+        expect(result.length).toBeGreaterThan(0);
     });
 
-    // 使用者從聊天軟體／手機鍵盤複製來的 emoji 幾乎都帶著看不見的
-    // variation selector（U+FE0F）。symbols.js 存的是不帶 VS 的裸字元，
-    // 兩者長得一模一樣卻比對不到，搜尋直接顯示「找不到」。
     it('symbol：貼上帶 variation selector 的「❤️」也要找到裸的「❤」', () => {
         const withVS = filterGroups(symbols, '❤️');
         const bare = filterGroups(symbols, '❤');
