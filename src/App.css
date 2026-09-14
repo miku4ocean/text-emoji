@@ -231,11 +231,14 @@ body {
 /* Base Grid - 8 columns for better visibility */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  grid-template-columns: repeat(auto-fill, 32px);
+  justify-content: center;
   gap: 2px;
 }
 
 .item-btn {
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,12 +246,10 @@ body {
   border: 1px solid transparent;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   transition: all 0.15s;
   user-select: none;
-  padding: 4px 2px;
-  min-width: 0;
-  min-height: 32px;
+  padding: 0;
   /* IMPORTANT: Make text symbols white */
   color: var(--text-primary);
 }
