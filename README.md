@@ -1,3 +1,5 @@
+[![CI](https://github.com/miku4ocean/text-emoji/actions/workflows/ci.yml/badge.svg)](https://github.com/miku4ocean/text-emoji/actions/workflows/ci.yml)
+
 # ✨ Emoji 工具箱 (Emoji Toolbox)
 
 一款精美的表情符號與文字處理工具，同時提供 **Chrome 擴充功能** 和 **網頁版** 兩種使用方式。
