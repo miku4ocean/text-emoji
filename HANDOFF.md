@@ -90,3 +90,7 @@
 
 ## 主辦權
 單線／待分派
+
+## 部署（Cloudflare Pages，2026-10-08 準備）
+- 指令：`bash scripts/deploy.sh`（build → `.deploy/` → `wrangler pages deploy`，專案 `text-emoji-miku`，預定網址 https://text-emoji-miku.pages.dev）
+- 已移除 Google Fonts 外部載入（改系統字型）；`public/_headers` 設 CSP／nosniff／Referrer-Policy／Permissions-Policy／X-Frame-Options；產物排除 sidepanel.html／manifest.json（Chrome 擴充專用）。
