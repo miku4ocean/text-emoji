@@ -96,6 +96,22 @@ function App() {
 
   const currentTab = TABS.find(t => t.id === activeTab);
 
+  const selectTab = (id) => { setActiveTab(id); setSearch(''); };
+
+  // WAI-ARIA tabs：左右鍵／Home／End 切換並移動焦點
+  const handleTabKeyDown = (e) => {
+    const idx = TABS.findIndex(t => t.id === activeTab);
+    let next = -1;
+    if (e.key === 'ArrowRight') next = (idx + 1) % TABS.length;
+    else if (e.key === 'ArrowLeft') next = (idx - 1 + TABS.length) % TABS.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = TABS.length - 1;
+    if (next < 0) return;
+    e.preventDefault();
+    selectTab(TABS[next].id);
+    document.getElementById(`tab-${TABS[next].id}`)?.focus();
+  };
+
   return (
     <div className="container">
       {/* Header */}
@@ -112,18 +128,25 @@ function App() {
       </header>
 
       {/* Tabs */}
-      <div className="tabs">
+      <div className="tabs" role="tablist" aria-label="工具分類" onKeyDown={handleTabKeyDown}>
         {TABS.map(tab => {
           const Icon = tab.icon;
+          const selected = activeTab === tab.id;
           return (
             <button
               key={tab.id}
-              className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => { setActiveTab(tab.id); setSearch(''); }}
+              type="button"
+              role="tab"
+              id={`tab-${tab.id}`}
+              aria-selected={selected}
+              aria-controls="tabpanel-main"
+              tabIndex={selected ? 0 : -1}
+              className={`tab-btn ${selected ? 'active' : ''}`}
+              onClick={() => selectTab(tab.id)}
               title={tab.label}
-              aria-label={tab.label}
             >
-              <Icon size={18} />
+              <Icon size={18} aria-hidden="true" />
+              <span className="tab-label">{tab.label}</span>
             </button>
           );
         })}
@@ -151,7 +174,7 @@ function App() {
       )}
 
       {/* Content */}
-      <div className="content">
+      <div className="content" role="tabpanel" id="tabpanel-main" aria-labelledby={`tab-${activeTab}`}>
         {activeTab === 'emoji' && (
           <EmojiTab
             recent={recentEmojis}

@@ -23,6 +23,20 @@ describe('無障礙', () => {
         expect(toastTag).toContain('role="status"');
     });
 
+    // 分頁原本只有圖示＋aria-label，沒有 tablist 語意、也沒有可見文字。
+    it('分頁列有 tablist／tab／aria-selected 語意與可見文字標籤', () => {
+        const html = renderToString(<App />);
+        expect(html).toContain('role="tablist"');
+        const tabs = html.match(/<button[^>]*role="tab"[^>]*>.*?<\/button>/g) ?? [];
+        expect(tabs.length).toBe(5);
+        expect(tabs.filter(t => t.includes('aria-selected="true"')).length).toBe(1);
+        for (const label of ['表情符號', '文字符號', '顏文字', '空白工具', '斷行工具']) {
+            expect(tabs.some(t => t.includes(`<span class="tab-label">${label}</span>`))).toBe(true);
+        }
+        expect(html).toContain('role="tabpanel"');
+        expect(html).toContain('aria-labelledby="tab-emoji"');
+    });
+
     it('搜尋框有可讀的名稱（不只靠 placeholder）', () => {
         const html = renderToString(<App />);
         const input = html.match(/<input[^>]*class="search-input"[^>]*>/)?.[0] ?? '';
